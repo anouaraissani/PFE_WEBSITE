@@ -1,6 +1,6 @@
 
 const { getConnection, connect } = require('../db/connect')
-const {queryCA1, queryCA2, queryCA3, q} = require('../queries')
+const {queryCA1, queryCA2, queryCA3, queryCA4, q} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
@@ -22,6 +22,7 @@ const fetchDataCA= async (req, res) =>{
         //fetch the data from the database
         const result1 = await connection.execute(queryCA1)
         const result2 = await connection.execute(queryCA2)
+        const result4 = await connection.execute(queryCA4)
         //put years values in an array
         const yearArray = result1.rows.map(row => row[0]);
         // create CA_annee_mois vaiable that contains "CA par mois pour chaque année"
@@ -86,10 +87,35 @@ const fetchDataCA= async (req, res) =>{
             labels: yearArray,
             datasets: datasets
         };
+        // --------------------------------------------------------------------------------------------------
+        //GRAPH 4
+        // Extract unique assurance branches from the data
+        const assuranceBranches = Array.from(new Set(result4.rows.map(row => row[0])));
+
+        // Create datasets
+        const datasets4 = assuranceBranches.map(branch => {
+        const branchData = [];
+        for (const year of yearArray) {
+            const row = result4.rows.find(row => row[0] === branch && row[1] === String(year));
+            const revenue = row ? row[2] : 0;
+            branchData.push(revenue);
+        }
+        return {
+            label: branch,
+            data: branchData
+        };
+        });
+
+        const data4 = {
+            labels: yearArray,
+            datasets: datasets4
+        };
+
         const data = {
             data1: data1,
             data2: data2,
-            data3: data3
+            data3: data3,
+            data4: data4,
         };
         console.log('fetch data:',data)
         res.json(data);

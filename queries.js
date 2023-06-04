@@ -33,4 +33,13 @@ const queryCA3 = `
     ORDER BY d.trimestre
 ` 
 
-module.exports={queryCA1, queryCA2, queryCA3, q}
+const queryCA4 =`
+    SELECT cat.libebran, d.annee,  SUM(CA) 
+    FROM DATAWH.FAIT_PRODUCTION prod, DATAWH.DIM_DATE d, DATAWH.DIM_CATEGORIE cat
+    WHERE prod.date_key = d.date_key
+    AND cat.categorie_key = prod.categorie_key
+    GROUP BY cat.libebran, d.annee
+    ORDER BY cat.libebran, d.annee
+`
+
+module.exports={queryCA1, queryCA2, queryCA3, queryCA4, q}

@@ -352,9 +352,42 @@ async function fetchData() {
               toggleData(index);
             });
           });
+          // -----------------------------------------------------------------------------------------------------------------------
+      // CHART4
+      // -----------------------------------------------------------------------------------------------------------------------
+      // Create a new chart instance
+      myChart4 = new Chart('ca-par-annee-branche', {
+        type: 'line',
+        data: {
+          labels: dataJ.data4.labels,
+          datasets: dataJ.data4.datasets
         },
-    
-    )
+        options: {
+          // responsive: true,
+          // maintainAspectRatio: false,
+          title: {
+            display: true,
+            text: 'Multiple Line Chart'
+          },
+          scales: {
+            x: {
+              display: true,
+              title: {
+                display: true,
+                text: 'Year'
+              }
+            },
+            y: {
+              display: true,
+              title: {
+                display: true,
+                text: 'Value'
+              }
+            }
+          }
+        }
+      });       
+    })
     .catch(error => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error)
     });
