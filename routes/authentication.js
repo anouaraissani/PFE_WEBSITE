@@ -18,7 +18,7 @@ initialize(
             const connection = await getConnection()
             const result = await connection.execute(
             'SELECT * FROM users WHERE email = :email',{email})
-            await closePool()
+            await connection.close()
             if (result.rows.length > 0) {
                 const user = {};
                 const metaData = result.metaData;
@@ -43,7 +43,7 @@ initialize(
             const connection = await getConnection()
             const result = await connection.execute(
             'SELECT * FROM users WHERE TO_NUMBER(id) = :id',{id})
-            await closePool();
+            await connection.close();
             if (result.rows.length > 0) {
                 const user = {};
                 const metaData = result.metaData;
@@ -72,5 +72,5 @@ router.route('/login').get(checkNotAuthenticated, getLogin).post(checkNotAuthent
 //register
 router.route('/register').get(checkNotAuthenticated, getRegister).post(checkNotAuthenticated, postRegister)
 //logout
-router.delete('/logout', logout)
+router.get('/logout', logout)
 module.exports = router
