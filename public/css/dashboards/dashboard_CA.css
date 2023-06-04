@@ -1,9 +1,12 @@
+
+
+
 .main {
 	padding:20px;
 	grid-area: main;
 	background-color: #eae0e0;
 	display: grid;
-	grid-template-columns: 2fr 1fr;
+	grid-template-columns: 600px 380px;
 	grid-template-rows: 384PX 1fr 1fr;
 	grid-gap:20px;
 	position:relative;

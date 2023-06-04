@@ -386,6 +386,136 @@ async function fetchData() {
             }
           }
         }
+      });
+      // -----------------------------------------------------------------------------------------------------------------------
+      // CHART5
+      // -----------------------------------------------------------------------------------------------------------------------
+      //get the datasets from dataJ
+      datasetsChar5 =  dataJ.data5.datasets
+      // assign a color to each bar
+      datasetsChar5.forEach((agency, index) => {
+        agency.backgroundColor = colorsData[index].color;
+        agency.borderColor = colorsData[index].borderColor;
+      });
+      // Create the chart
+      myChart5 = new Chart('ca-par-annee-inter', {
+      type: 'bar',
+      data: 
+      {
+        labels: dataJ.data5.labels,
+        // datasets: dataJ.data5.datasets
+        datasets: datasetsChar5
+      },
+      options: {
+        borderWidth: 1,
+        indexAxis: 'y',
+      // responsive: true,
+      // maintainAspectRatio: false,
+      plugins: {
+          title: {
+          display: true,
+          // text: 'Stacked Chart',
+          },
+      },
+      scales: {
+          x: {
+          // stacked: true,
+          // ticks: {
+          //   stepSize: 100000
+          // }
+          },
+          y: {
+          stacked: true,
+          
+          },
+      },
+      },
+      })
+      function toggleData5(index) {
+        if (myChart5) {
+          myChart5.data.datasets.forEach((dataset, datasetIndex) => {
+            if (datasetIndex === index) {
+              dataset.hidden = false; // Set the clicked dataset to visible
+            } else {
+              dataset.hidden = true; // Hide the other datasets
+            }
+          });
+          myChart5.update(); // Update the chart to apply the changes
+        }
+      }
+      
+      // Attach the toggleData function to the button onclick event
+      const buttons5 = document.querySelectorAll('.buttonBox5 button');
+      buttons5.forEach((button, index) => {
+        button.addEventListener('click', () => {
+          toggleData5(index);
+        });
+      });
+      
+
+            // // if the data values are not visible show it else hide the data
+            // function toggleData5(value) {
+            //   if (myChart5) {
+            //     const showValue = myChart5.isDatasetVisible(value);
+            //     if (showValue === true) {
+            //       myChart5.hide(value);
+            //     } else {
+            //       myChart5.show(value);
+            //     }
+            //   }
+            // }
+            // // Attach the toggleData function to the button onclick event
+            // const buttons5 = document.querySelectorAll('.buttonBox5 button');
+            // buttons5.forEach((button, index) => {
+            //   button.addEventListener('click', () => {
+            //     toggleData5(index);
+            //   });
+            // });
+            // -----------------------------------------------------------------------------------------------------------------------
+      // CHART6
+      // -----------------------------------------------------------------------------------------------------------------------
+      // Create the chart
+      myChart6 = new Chart('ca-par-inter', {
+        type: 'pie',
+          data: {
+          labels: dataJ.data6.labels,
+          datasets: [{
+              label: 'Chiffre d affaire par branche',
+              //data: datasets.data,
+              data: dataJ.data6.data,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]},
+          options: {
+            // responsive: true,
+            // maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  font: {
+                    size: 10 // Set a smaller font size for the labels
+                  },
+                  // fontSize: 0 // Set a smaller font size for the labels
+                  textOverflow: 'ellipsis'
+                }
+              },
+            }
+          }
       });       
     })
     .catch(error => {

@@ -42,4 +42,20 @@ const queryCA4 =`
     ORDER BY cat.libebran, d.annee
 `
 
-module.exports={queryCA1, queryCA2, queryCA3, queryCA4, q}
+const queryCA5 =`
+    SELECT int.libtypin, d.annee, SUM(CA) 
+    FROM DATAWH.FAIT_PRODUCTION prod, DATAWH.DIM_DATE d, DATAWH.DIM_INTERMEDIAIRE int
+    WHERE prod.date_key = d.date_key
+    AND int.intermediaire_key = prod.intermediaire_key
+    GROUP BY int.libtypin, d.annee
+    ORDER BY int.libtypin, d.annee
+`
+const queryCA6 = `
+    SELECT int.libtypin, SUM(CA)
+    FROM DATAWH.FAIT_PRODUCTION prod, DATAWH.DIM_INTERMEDIAIRE int
+    WHERE int.intermediaire_key = prod.intermediaire_key
+    GROUP BY int.libtypin
+    ORDER BY int.libtypin
+`
+
+module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q}

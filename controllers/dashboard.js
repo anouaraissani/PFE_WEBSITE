@@ -1,6 +1,6 @@
 
 const { getConnection, connect } = require('../db/connect')
-const {queryCA1, queryCA2, queryCA3, queryCA4, q} = require('../queries')
+const {queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
@@ -23,6 +23,9 @@ const fetchDataCA= async (req, res) =>{
         const result1 = await connection.execute(queryCA1)
         const result2 = await connection.execute(queryCA2)
         const result4 = await connection.execute(queryCA4)
+        const result5 = await connection.execute(queryCA5)
+        const result6 = await connection.execute(queryCA6)
+        
         //put years values in an array
         const yearArray = result1.rows.map(row => row[0]);
         // create CA_annee_mois vaiable that contains "CA par mois pour chaque année"
@@ -110,12 +113,56 @@ const fetchDataCA= async (req, res) =>{
             labels: yearArray,
             datasets: datasets4
         };
-
+        // --------------------------------------------------------------------------------------------------
+        //GRAPH 5
+        const datasets5 = [];
+        
+        // Extract unique agencies from the data
+        const agencies = [...new Set(result5.rows.map(row => row[0]))];
+        
+        // Iterate over each agency
+        agencies.forEach(agency => {
+        // Find rows corresponding to the agency
+        const agencyRows = result5.rows.filter(row => row[0] === agency);
+        
+        // Create an array to store the revenue for each year
+        const revenueArray = new Array(7).fill(0);
+        
+        // Iterate over the rows and assign revenue to the corresponding year
+        agencyRows.forEach(row => {
+            const year = parseInt(row[1]);
+            const revenue = row[2];
+            revenueArray[year - 2017] = revenue;
+        });
+        
+        // Create the dataset object for the agency
+        const dataset = {
+            label: agency,
+            data: revenueArray
+        };
+        
+        // Add the dataset to the datasets array
+        datasets5.push(dataset);
+        });
+        const data5 = {
+        labels: yearArray,
+        datasets: datasets5
+        }
+        // --------------------------------------------------------------------------------------------------
+        //GRAPH 6
+        const data6 = {
+            labels: result6.rows.map(row => row[0]),
+            data: result6.rows.map(row => row[1])
+        }
+        // --------------------------------------------------------------------------------------------------
+        // combine data in one variable "data"
         const data = {
             data1: data1,
             data2: data2,
             data3: data3,
             data4: data4,
+            data5: data5,
+            data6: data6,
         };
         console.log('fetch data:',data)
         res.json(data);
