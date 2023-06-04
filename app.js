@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const port = process.env.PORT || 5000
 const express = require('express')
+const path = require("path")
 const app = express()
 const oracledb = require('oracledb')
 // Set the queueTimeout value
@@ -22,6 +23,8 @@ const methodOverride = require('method-override')
 
 //set the view engine for our application to EJS (rendering dynamic HTML to client requests)
 app.set('view-engine', 'ejs')
+//set the public repository for our static files
+app.use(express.static(path.join(__dirname, "public")));
 //Take data from the forms and build access to them inside our request variable in post method
 app.use(express.urlencoded({ extended: false }))
 app.use(session({
