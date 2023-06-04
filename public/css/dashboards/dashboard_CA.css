@@ -3,30 +3,30 @@
 	grid-area: main;
 	background-color: #eae0e0;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 270 140px 140px;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: 384PX 1fr 1fr;
 	grid-gap:20px;
 	position:relative;
 }
 #card1 {
-    grid-column-start: 1;
-    grid-column-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: 3;    
+    grid-row-end: 2;    
     }
 
 #card2 {
     grid-column-start: 2;
     grid-column-end: 3;  
-    grid-row-start: 1;
+    grid-row-start: 2;
     grid-row-end: 3;  
     }
 
 #card3 {
     grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 3;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
     }
     
 
