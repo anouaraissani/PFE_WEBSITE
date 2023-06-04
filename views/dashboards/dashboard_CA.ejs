@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Chart.js Example</title>
-    <link rel="stylesheet" href="./css/dashboard/dashboard_CA.css" type="text/css">
+    <link rel="stylesheet" href="/css/dashboards/dashboard_CA.css" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="/css/partials.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="/css/dashboard/dashboard_CA.css"
+      type="text/css"
+    />
+    <link rel="shortcut icon" href="/images/saa-logo.png" type="image/x-icon" />
+    
 </head>
 <body>
+    <div class="grid-container">
+    <%- include('../partials/header') %> <%- include('../partials/sidebar') %>
     <main class="main">
         <div class="card" id="card1">	
             <div class="card-header">
@@ -35,10 +45,11 @@
         </div>
 
     </main>
-
+    <%- include('../partials/footer') %>
+    </div>
 
     
 
-    <script src="./script/dashboard_CA.js"></script>
+    <script src="/javascripts/dashboard_CA.js"></script>
 </body>
 </html>
