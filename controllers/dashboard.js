@@ -8,6 +8,12 @@ const dashboard = async (req, res) => {
     res.render('index.ejs', { name: user.name })
 } 
 
+const dashboardCA = async (req, res) => {
+    const user = await req.user;
+    console.log('the user name: ', user.name);
+    res.render('dashboards/dashboard_CA.ejs', { name: user.name });
+  };
+
 // Query the database and fetch data
 const fetchDataCA= async (req, res) =>{
     try {
@@ -48,4 +54,4 @@ const fetchDataCA= async (req, res) =>{
     }
 }
 
-module.exports={dashboard, fetchDataCA}
+module.exports={dashboard, dashboardCA, fetchDataCA}
