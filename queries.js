@@ -24,11 +24,13 @@ const queryCA2 = `
     ORDER BY cat.libebran
 `
 
-const queryCA3 = `SELECT d.mois, SUM(CA) 
-FROM DATAWH.FAIT_PRODUCTION f, DATAWH.DIM_DATE d
-WHERE f.date_key = d.date_key
-AND d.annee = 2017
-GROUP BY d.mois
-ORDER BY d.mois` 
+const queryCA3 = `
+    SELECT d.trimestre, SUM(CA) 
+    FROM FAIT_PRODUCTION f, DIM_DATE d
+    WHERE f.date_key = d.date_key
+    AND d.annee = :annee
+    GROUP BY d.trimestre
+    ORDER BY d.trimestre
+` 
 
 module.exports={queryCA1, queryCA2, queryCA3, q}

@@ -22,16 +22,20 @@ const fetchDataCA= async (req, res) =>{
         //fetch the data from the database
         const result1 = await connection.execute(queryCA1)
         const result2 = await connection.execute(queryCA2)
-        const result3 = await connection.execute(queryCA3)
         //put years values in an array
         const yearArray = result1.rows.map(row => row[0]);
         // create CA_annee_mois vaiable that contains "CA par mois pour chaque année"
         const CA_annee_mois = {}
         for (const annee of yearArray) {
-            console.log(annee)
             const d = await connection.execute(q);
             CA_annee_mois[annee] = d;
         } 
+        // create CA_annee_trimestre vaiable that contains "CA par trimestre pour chaque année"
+        const CA_annee_trimestre = {}
+        for (const annee of yearArray) {
+            const d = await connection.execute(queryCA3, {annee});
+            CA_annee_trimestre[annee] = d;
+        }  
         await connection.close()
         // --------------------------------------------------------------------------------------------------
         //GRAPH 1
@@ -63,11 +67,24 @@ const fetchDataCA= async (req, res) =>{
                 data: result2.rows.map(row => row[1])
             }]
         };
+        // --------------------------------------------------------------------------------------------------
+        // GRAPH 3 
+        const datasets = [];
+
+        for (let i = 1; i <= 4; i++) {
+        const quarterData = {
+            label: `T${i}`,
+            data: Object.values(CA_annee_trimestre).map((yearData) => {
+            const rows = yearData.rows;
+            const row = rows.find((r) => r[0] === i);
+            return row ? row[1] : 0;
+            }),
+        };
+        datasets.push(quarterData);
+        }   
         const data3 = {
-            labels: result3.rows.map(row => row[0]),
-            datasets: [{
-                data: result3.rows.map(row => row[1])
-            }]
+            labels: yearArray,
+            datasets: datasets
         };
         const data = {
             data1: data1,

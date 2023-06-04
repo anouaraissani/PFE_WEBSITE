@@ -59,3 +59,18 @@
 .card:hover{
     background-color: #ebebeb;
     }
+
+.buttonBox{
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    }
+button{
+    padding: 5 px 10 px;
+    margin: 5px;
+    background: #f3b635;
+    color: #332316;
+    border-radius: 5px;
+    } 

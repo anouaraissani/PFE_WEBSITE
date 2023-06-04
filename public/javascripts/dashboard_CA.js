@@ -274,7 +274,8 @@ async function fetchData() {
               borderWidth: 1
           }]},
           options: {
-            
+            responsive: true,
+            maintainAspectRatio: false,
             scales:{
               y: {
                 beginAtZero: true,
@@ -306,35 +307,52 @@ async function fetchData() {
             }
           }
       });
-      myChart3 = new Chart(ca_par_mois_annee, {
+      // -----------------------------------------------------------------------------------------------------------------------
+      // CHART3
+      // -----------------------------------------------------------------------------------------------------------------------
+      //get the datasets from dataJ
+      const datasetsChar3 =  dataJ.data3.datasets
+      // assign a color to each bar
+      datasetsChar3.forEach((quarter, index) => {
+        quarter.backgroundColor = colorsData[index].color;
+        quarter.borderColor = colorsData[index].borderColor;
+      });
+      myChart3 = new Chart('cd-par-trimestre', {
         type: 'bar',
         data: {
-        labels: data.data3.labels,
-        datasets: [{
-            label: 'Chiffre d affaire par mois pour chaque année',
-            //data: datasets.data,
-            data: data.data3.datasets[0].data,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]},
-        options: options
-    });
-    },
+          labels: dataJ.data3.labels,
+          datasets:  datasetsChar3,  
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          borderWidth: 1,
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+          // if the data values are not visible show it else hide the data
+          function toggleData(value) {
+            if (myChart3) {
+              const showValue = myChart3.isDatasetVisible(value);
+              if (showValue === true) {
+                myChart3.hide(value);
+              } else {
+                myChart3.show(value);
+              }
+            }
+          }
+          // Attach the toggleData function to the button onclick event
+          const buttons = document.querySelectorAll('.buttonBox button');
+          buttons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+              toggleData(index);
+            });
+          });
+        },
     
     )
     .catch(error => {
