@@ -250,11 +250,11 @@ async function fetchData() {
         myChart2 = new Chart(ca_par_branche, {
           type: 'bar',
           data: {
-          labels: data.data2.labels,
+          labels: dataJ.data2.labels,
           datasets: [{
               label: 'Chiffre d affaire par branche',
               //data: datasets.data,
-              data: data.data2.datasets[0].data,
+              data: dataJ.data2.datasets[0].data,
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -273,7 +273,38 @@ async function fetchData() {
               ],
               borderWidth: 1
           }]},
-          options: options
+          options: {
+            
+            scales:{
+              y: {
+                beginAtZero: true,
+                // ticks: {
+                //   stepSize: 100000
+                // }
+          },
+                //display in millions
+                // ticks: {
+                //   callback: function (value) {
+                //     return value / 1000000 + 'M'; // Divide the value by 1000000 to display in millions
+                //   }
+                // }
+              // }
+            },
+            // responsive: true,
+            // maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                label: {
+                  font: {
+                    size: 5// Set a smaller font size for the labels
+                  },
+                  // fontSize: 0 // Set a smaller font size for the labels
+                  textOverflow: 'ellipsis'
+                }
+              },
+
+            }
+          }
       });
       myChart3 = new Chart(ca_par_mois_annee, {
         type: 'bar',
