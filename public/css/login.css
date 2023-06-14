@@ -14,10 +14,17 @@ section{
     background-position: center;
     background-size: cover;
 }
+
+h1{
+    font-size: 2em;
+    color: #332316;
+    display: flex;
+    justify-content: center;
+}
 .form-box{
     position: relative;
     width: 400px;
-    height: 450px;
+    height: 400px;
     background: transparent;
     border: 2px solid #332316;
     border-radius: 20px;
