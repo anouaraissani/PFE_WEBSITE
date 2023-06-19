@@ -6,8 +6,7 @@ function initialize(passport,getUserByEmail, getUserById) {
     const authenticateUser = async (email, password, done) => {
         //get the user from the data base with the entred email
         const user = await getUserByEmail(email)
-        //test 
-        console.log('the user is',user)
+
         if (user == null) {
             return done(null, false, { message: 'No user with that email' })
         }
