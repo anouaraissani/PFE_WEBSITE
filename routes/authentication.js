@@ -28,8 +28,6 @@ initialize(
                     const columnName = metaData[i].name.toLowerCase();
                     user[columnName] = row[i];
                 }
-            //test
-            console.log('getUserByEmail',user)
             return user
             }
         } catch (error) {
@@ -53,8 +51,6 @@ initialize(
                     const columnName = metaData[i].name.toLowerCase();
                     user[columnName] = row[i];
                 }
-                //test
-                console.log('getUserById',user)
                 return user
             }
         } catch (error) {
