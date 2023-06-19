@@ -1,99 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 *{
-    margin: 0;
-    padding: 0;
     font-family: 'poppins',sans-serif;
 }
-section{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    background: url('../images/2.jpg')no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-.form-box{
-    position: relative;
-    width: 400px;
-    height: 450px;
-    background: transparent;
-    border: 2px solid #332316;
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-}
-h2{
-    font-size: 2em;
-    color: #332316;
+/* Styles pour la balise h2 */
+h2 {
     text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    background-color: rgb(244, 244, 244);
 }
-.inputbox{
-    position: relative;
-    margin: 30px 0;
-    width: 310px;
-    border-bottom: 2px solid #332316;
+section {
+    justify-content: center;
+    /* margin: 0 200px; Add margin on the left and right sides */
+
+    margin: 0 auto; /* Add margin on the left and right sides and set auto for horizontal centering */
+    max-width: 800px;
 }
-.inputbox label{
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    color: #332316;
-    font-size: 1em;
-    pointer-events: none;
-    transition: .5s;
+.inputbox {
+    display: flex;
+    flex-direction: column;
 }
-input:focus ~ label,
-input:valid ~ label{
-top: -5px;
+input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
-.inputbox input {
-    width: 100%;
-    height: 50px;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 1em;
-    padding:0 35px 0 5px;
-    color: #332316;
-}
-.inputbox ion-icon{
-    position: absolute;
-    right: 8px;
-    color: #f3b635;
-    font-size: 1.2em;
-    top: 20px;
+select {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-
-button{
-    width: 100%;
-    height: 40px;
-    border-radius: 40px;
-    background: #f3b635;
-    color: #332316;
-    border: none;
+input:focus {
     outline: none;
+    border-color: #333;
+}
+/* Sélectionnez le bouton et définissez les styles */
+button {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
 }
-.login{
-    font-size: .9em;
-    color: #f3b635;
-    text-align: center;
-    margin: 25px 0 10px;
+/* Style supplémentaire pour le bouton lorsqu'il est survolé */
+.cancel-button{
+    background-color: #fb0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+
 }
-.login p a{
-    text-decoration: none;
-    color: #332316;
-    font-weight: 600;
+/* Style supplémentaire pour le bouton lorsqu'il est survolé */
+button:hover {
+    background-color: #333;
 }
-.login p a:hover{
-    text-decoration: underline;
+.cancel-button:hover {
+    background-color: #FF5C5C;
 }

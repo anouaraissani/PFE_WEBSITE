@@ -10,35 +10,40 @@
 
     <section>
         
-        <form action="/auth/register" method="POST">
+        <form action="/usersmanagement/register" method="POST">
         <div class="form-box">
             <div class="form-value">
                 <form action="">
-                    <h2>S'inscrire</h2>
-                    <div class="inputbox">
-                        <ion-icon name="person-outline"></ion-icon>
-                        <input type="name" id="name" name="name" required>
-                        <label for="name">Nom</label>
-                    </div>
-                    <div class="inputbox">
-                        <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" id="email" name="email" required>
-                        <label for="email">Email</label>
-                    </div>
-                    <div class="inputbox">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                        <input type="password" id="password" name="password" required>
-                        <label for="password">Mot de passe</label>                        
-                    </div>
-                    <button type="submit">S'inscrire</button>
-                    <div class="login">
-                        <p>Vous avez un compte <a href="/auth/login">Connectez-vous</a></p>
-                    </div>
+                    <h2>Ajouter un nouvel utilisateur</h2>
+                    <section>
+                        <div class="inputbox">
+                            <label for="name">Nom d'utilisateur:</label>
+                            <input type="name" id="name" name="name" required>   
+                        </div>
+                        <div class="inputbox">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="inputbox">
+                            <label for="password">Mot de passe:</label>
+                            <input type="password" id="password" name="password" required>                        
+                        </div>
+                        <div class="inputbox">
+                            <label for="role">Role:</label>
+                            <select id="role" name="role">
+                                <option value="administrateur">Administrateur</option>
+                                <option value="utilisateur">Utilisateur</option>
+                            </select><br><br>
+                        </div>
+                        <button type="submit">Sauvegarder</button>
+                        <button class="cancel-button" >Annuler</button>
+                </section>
                 </form>
             </div>
         </div>
     </form>
     </section>
+    <script src="/javascripts/cancel.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>

@@ -1,5 +1,7 @@
 const { getConnection, connect } = require('../db/connect')
 const path = require('path')
+//hash and compare passwords
+const bcrypt = require('bcrypt')
 
 // get users management page
 const userspage = (req, res) => {
@@ -38,5 +40,30 @@ const fetchDataUsers = async (req, res) =>{
     }
 }
 
+const getRegister = (req, res) => {
+    res.render('register.ejs')
+}
 
-module.exports = {userspage, getUserCount, fetchDataUsers}
+const postRegister = async (req, res) => {
+    try {
+      //hash the password of the new user
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    await connect()
+    const connection = await getConnection()
+      //store the new user in our database
+    await connection.execute(
+        `INSERT INTO users (id, name, email, password, role) VALUES (${Date.now()}, '${req.body.name}', '${req.body.email}', '${hashedPassword}', '${req.body.role}')`
+    );
+    await connection.execute(
+        `commit`
+    );
+    await connection.close();
+      //if the registration is succefull, redirect to user management page
+    res.redirect('/usersmanagement')
+    } catch (e){
+    console.error(e)
+      //if the registration is failed, redirect to registration page
+    res.redirect('/usersmanagement/register')
+    }
+}
+module.exports = {userspage, getUserCount, fetchDataUsers, getRegister, postRegister}
