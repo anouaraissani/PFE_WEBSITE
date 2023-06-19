@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/css/userManagement/userManagement.css" type="text/css">
+  <title>User Management Page</title>
+
+</head>
+<body>
+  <h1>Utilisateurs du tableau de bord</h1>
+  <button class="add-button">Ajouter un nouveau utilisateur</button>
+  <!-- loading  is displayed as a placeholder while the actual number of users is being fetched and loaded from the server.  -->
+  <p id="user-count">Nombre d'utilisateurs: Loading...</p>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Nom</th>
+        <th>Role</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- User data will be dynamically inserted here -->
+    </tbody>
+  </table>
+  <script src="/javascripts/usersManagement.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
