@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    font-family: 'poppins',sans-serif;
+}
+/* Styles pour la balise h2 */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    background-color: rgb(244, 244, 244);
+}
+section {
+    justify-content: center;
+    /* margin: 0 200px; Add margin on the left and right sides */
+
+    margin: 0 auto; /* Add margin on the left and right sides and set auto for horizontal centering */
+    max-width: 800px;
+}
+.inputbox {
+    display: flex;
+    flex-direction: column;
+}
+input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+select {
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #333;
+}
+/* Sélectionnez le bouton et définissez les styles */
+button{
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+.cancel-button{
+    background-color: #fb0000;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+/* Style supplémentaire pour le bouton lorsqu'il est survolé */
+button:hover {
+    background-color: #333;
+}
+.cancel-button:hover {
+    background-color: #FF5C5C;
+}

@@ -67,6 +67,44 @@ const postRegister = async (req, res) => {
     }
 }
 
+
+const editUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await connect();
+        const connection = await getConnection();
+        const result = await connection.execute(`SELECT * FROM USERS WHERE TO_NUMBER(id) = :id`, {id})
+        await connection.execute(`commit`)
+        const user = result.rows[0]
+        await connection.close()
+        res.render('editUser.ejs', {user} )
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const updateUser = async (req, res) =>{
+    
+    try {
+        const {name, email, password, role} = req.body
+          //hash the password of the new user
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        const id = req.params.id
+        await connect();
+        const connection = await getConnection()
+        await connection.execute(`UPDATE USERS SET NAME = :name, email = :email, password = :hashedPassword, role = :role WHERE id = :id`, {name, email, hashedPassword, role, id})
+        await connection.execute(`commit`)
+        await connection.close()
+        // const filePath = path.join(__dirname, '../public/html/usersManagement.html')
+        // res.sendFile(filePath)
+        res.redirect('/usersmanagement')
+        } catch (error) {
+        console.error(error)
+    }
+}
+
+
 const deleteUser = async (req, res) => {
     try {
         const id = req.params.id;
@@ -81,4 +119,4 @@ const deleteUser = async (req, res) => {
         console.error(error);
     }
 }
-module.exports = {userspage, getUserCount, fetchDataUsers, getRegister, postRegister, deleteUser}
+module.exports = {userspage, getUserCount, fetchDataUsers, getRegister, postRegister, deleteUser, editUser, updateUser}
