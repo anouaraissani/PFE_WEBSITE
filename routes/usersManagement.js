@@ -3,7 +3,7 @@ const router = express.Router()
 //hash and compare passwords
 const bcrypt = require('bcrypt')
 const {checkAuthenticated, checkNotAuthenticated} = require('../middlewares/authentification')
-const {userspage, getUserCount, fetchDataUsers, getRegister, postRegister} = require('../controllers/usersManagement')
+const {userspage, getUserCount, fetchDataUsers, getRegister, postRegister, deleteUser} = require('../controllers/usersManagement')
 
 
 //use static files(.css, .html, ...)
@@ -19,5 +19,9 @@ router.get('/api/usercount', getUserCount)
 
 // router.route('/register').get(checkNotAuthenticated, getRegister).post(checkNotAuthenticated, postRegister)
 router.route('/register').get(getRegister).post(postRegister)
+
+//delete a user
+// router.get('/delete/:id', checkAuthenticated, async (req, res) => {
+router.get('/delete/:id', deleteUser)
 
 module.exports = router

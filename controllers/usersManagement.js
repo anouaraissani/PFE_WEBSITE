@@ -66,4 +66,19 @@ const postRegister = async (req, res) => {
     res.redirect('/usersmanagement/register')
     }
 }
-module.exports = {userspage, getUserCount, fetchDataUsers, getRegister, postRegister}
+
+const deleteUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await connect();
+        const connection = await getConnection();
+        await connection.execute(`DELETE FROM USERS WHERE TO_NUMBER(id) = :id`, {id})
+        await connection.execute(`commit`)
+        await connection.close();
+    
+        res.redirect('/usersmanagement')
+        } catch (error) {
+        console.error(error);
+    }
+}
+module.exports = {userspage, getUserCount, fetchDataUsers, getRegister, postRegister, deleteUser}
