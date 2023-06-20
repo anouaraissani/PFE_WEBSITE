@@ -4,14 +4,12 @@ const {queryCA1, queryCA2, queryCA3} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
-    console.log('the user name: ',user.name)
-    res.render('index.ejs', { name: user.name })
+    res.render('index.ejs', { user})
 } 
 
 const dashboardCA = async (req, res) => {
     const user = await req.user;
-    console.log('the user name: ', user.name);
-    res.render('dashboards/dashboard_CA.ejs', { name: user.name });
+    res.render('dashboards/dashboard_CA.ejs', { user});
   };
 
 // Query the database and fetch data
