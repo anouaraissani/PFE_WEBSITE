@@ -12,10 +12,10 @@ router.use(express.static('./views'))
 // router.get('/', checkAuthenticated, (req, res) => {
 router.get('/', checkAuthenticated, userspage)
 
-router.get('/users', checkAuthenticated, fetchDataUsers)
+router.get('/api/users', checkAuthenticated, fetchDataUsers)
 // router.get('/api/users', fetchDataUsers)
 
-router.get('/users', checkAuthenticated, getUserCount)
+router.get('/api/usercount', checkAuthenticated, getUserCount)
 // router.get('/api/usercount', getUserCount)
 
 router.route('/register').get(checkAuthenticated, getRegister).post(checkAuthenticated, postRegister)
