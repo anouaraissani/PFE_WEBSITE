@@ -2,6 +2,15 @@
 *{
     font-family: 'poppins',sans-serif;
 }
+body {
+    font-family: Arial, sans-serif;
+    /* align-items: flex-start; */
+}
+.main {
+	padding:20px;
+	grid-area: main;
+	position:relative;
+}
 /* Styles pour la balise h2 */
 h1 {
     text-align: center;

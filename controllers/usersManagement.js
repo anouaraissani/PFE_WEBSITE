@@ -1,12 +1,11 @@
 const { getConnection, connect } = require('../db/connect')
-const path = require('path')
 //hash and compare passwords
 const bcrypt = require('bcrypt')
 
 // get users management page
-const userspage = (req, res) => {
-    const filePath = path.join(__dirname, '../public/html/usersManagement.html')
-    res.sendFile(filePath);
+const userspage = async (req, res) => {
+    const user = await req.user
+    res.render('usersManagement.ejs', {user})
 }
 
 //get the total number of users 
@@ -40,8 +39,10 @@ const fetchDataUsers = async (req, res) =>{
     }
 }
 
-const getRegister = (req, res) => {
-    res.render('register.ejs')
+const getRegister = async (req, res) => {
+    const user = await req.user
+    console.log('the user name: ', user);
+    res.render('register.ejs', {user})
 }
 
 const postRegister = async (req, res) => {
@@ -70,14 +71,16 @@ const postRegister = async (req, res) => {
 
 const editUser = async (req, res) => {
     try {
+        const user = await req.user
         const id = req.params.id;
         await connect();
         const connection = await getConnection();
         const result = await connection.execute(`SELECT * FROM USERS WHERE TO_NUMBER(id) = :id`, {id})
         await connection.execute(`commit`)
-        const user = result.rows[0]
+        const useredit = result.rows[0]
+        console.log(user)
         await connection.close()
-        res.render('editUser.ejs', {user} )
+        res.render('editUser.ejs', {useredit, user} )
     } catch (error) {
         console.error(error);
     }
@@ -89,7 +92,6 @@ const updateUser = async (req, res) =>{
         const {name, email, password, role} = req.body
           //hash the password of the new user
         const hashedPassword = await bcrypt.hash(password, 10)
-
         const id = req.params.id
         await connect();
         const connection = await getConnection()

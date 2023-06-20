@@ -6,7 +6,11 @@ body {
     font-family: Arial, sans-serif;
     /* align-items: flex-start; */
 }
-
+.main {
+	padding:20px;
+	grid-area: main;
+	position:relative;
+}
 h1 {
     text-align: center;
     color: #333;

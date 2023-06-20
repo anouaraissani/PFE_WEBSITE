@@ -2,20 +2,24 @@
 <html>
 <head>
     <link rel="stylesheet" href='/css/userManagement/editUser.css' type="text/css">
-    <title>Modifier un utilisateur</title>
+    <link rel="stylesheet" href="/css/partials.css" type="text/css" />
     <link rel="shortcut icon" href="/images/saa-logo.png" type="image/x-icon" />
+    <title>Modifier un utilisateur</title>
 </head>
 <body>
-    <h1>Modifier les informations d'un utilisateur</h1>
-    <form id="edit-user-form" method="post" action="/usersmanagement/edit/<%= user[0] %>">
+    <div class="grid-container">
+        <%- include('./partials/sidebar')  %>
+        <main class="main">
+            <h1>Modifier les informations d'un utilisateur</h1>
+    <form id="edit-user-form" method="post" action="/usersmanagement/edit/<%= useredit[0] %>">
         <section>
         <div class="inputbox">
             <label for="name">Nom</label>
-            <input type="name" id="name" name="name" value="<%= user[1] %>" required>    
+            <input type="name" id="name" name="name" value="<%= useredit[1] %>" required>    
         </div>
         <div class="inputbox">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email"  value="<%= user[2] %>" required>
+            <input type="email" id="email" name="email"  value="<%= useredit[2] %>" required>
         </div>
         <div class="inputbox">
             <label for="password">Mot de passe</label>
@@ -24,15 +28,16 @@
         <div class="inputbox">
             <label for="role">Role:</label>
             <select id="role" name="role">
-                <option value="administrateur" <% if (user[4] == 'administratur') { %>selected<% } %>>Administrateur</option>
-                <option value="utilisateur" <% if (user[4] == 'utilisateur') { %>selected<% } %>>Utilisateur</option>
+                <option value="administrateur" <% if (useredit[4] == 'administratur') { %>selected<% } %>>Administrateur</option>
+                <option value="utilisateur" <% if (useredit[4] == 'utilisateur') { %>selected<% } %>>Utilisateur</option>
             </select><br><br>
         </div>
         <button class="save-button" type="submit">Sauvegarder</button>
         <button class="cancel-button" >Annuler</button>
     </section>
     </form>
+        </main>
+    </div>
     <script src="/javascripts/cancel.js"></script>
-
 </body>
 </html>
