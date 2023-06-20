@@ -10,22 +10,24 @@ const {userspage, getUserCount, fetchDataUsers, getRegister, postRegister, editU
 router.use(express.static('./views'))
 
 // router.get('/', checkAuthenticated, (req, res) => {
-router.get('/', userspage)
+router.get('/', checkAuthenticated, userspage)
 
-// router.get('/users', checkAuthenticated, fetchDataUsers)
-router.get('/api/users', fetchDataUsers)
-// router.get('/users', checkAuthenticated, getUserCount)
-router.get('/api/usercount', getUserCount)
+router.get('/users', checkAuthenticated, fetchDataUsers)
+// router.get('/api/users', fetchDataUsers)
 
-// router.route('/register').get(checkNotAuthenticated, getRegister).post(checkNotAuthenticated, postRegister)
-router.route('/register').get(getRegister).post(postRegister)
+router.get('/users', checkAuthenticated, getUserCount)
+// router.get('/api/usercount', getUserCount)
+
+router.route('/register').get(checkAuthenticated, getRegister).post(checkAuthenticated, postRegister)
+// router.route('/register').get(getRegister).post(postRegister)
 
 // edit user, update user
-router.route('/edit/:id').get(editUser).post(updateUser)
+router.route('/edit/:id').get(checkAuthenticated, editUser).post(checkAuthenticated, updateUser)
+// router.route('/edit/:id').get(editUser).post(updateUser)
 
 
 //delete a user
-// router.get('/delete/:id', checkAuthenticated, async (req, res) => {
-router.get('/delete/:id', deleteUser)
+router.get('/delete/:id', checkAuthenticated, deleteUser)
+// router.get('/delete/:id', deleteUser)
 
 module.exports = router
