@@ -57,5 +57,18 @@ const queryCA6 = `
     GROUP BY int.libtypin
     ORDER BY int.libtypin
 `
-
-module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q}
+// ----------------------------------------------------
+// GLOBAL ACTIVITY
+const queryT_CA = `
+    SELECT SUM(CA) 
+    FROM fait_production
+`
+const queryT_NBC = `
+    SELECT SUM(affnouvelle  + renouvellement) 
+    FROM fait_production
+`
+const queryT_RS = `
+    SELECT SUM(montregl) 
+    FROM fait_reglement
+`
+module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, queryT_CA, queryT_NBC, queryT_RS}
