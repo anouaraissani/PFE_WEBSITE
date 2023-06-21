@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chart.js Example</title>
+    <link rel="stylesheet" href="/css/dashboards/globalActivity.css" type="text/css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/css/partials.css" type="text/css" />
+    <link rel="shortcut icon" href="/images/saa-logo.png" type="image/x-icon" />
+    
+</head>
+<body>
+    <div class="grid-container">
+    <%- include('../partials/header') %> <%- include('../partials/sidebar') %>
+    <main class="main">
+
+        <div class="card" id="card1">	
+            <div class="card-header">
+                <p>Activité Globale</p>
+            </div>
+            <div class="card-content">	
+                <div class="Box">
+                    <div class="columns" >
+                        <div class="column" id="column1">
+                            <div class="icon-wrapper">
+                                <ion-icon name="cash-outline"></ion-icon>
+                            </div>
+                        </div>
+                        <div class="column" id="column2">
+                            <div class="row line" id="row1">
+                                <span class="label" id="label1"></span>
+                            </div>
+                            <div class="row  " id="row2">
+                                <span class="value" id="ca"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Box">
+                    <div class="columns" >
+                        <div class="column" id="column1">
+                            <div class="icon-wrapper">
+                                <ion-icon name="newspaper-outline"></ion-icon>
+                            </div>
+                        </div>
+                        <div class="column" id="column2">
+                            <div class="row line" id="row1">
+                                <span class="label" id="label2"></span>
+                            </div>
+                            <div class="row" id="row2">
+                                <span class="value" id="nc"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Box">
+                    <div class="columns" >
+                        <div class="column" id="column1">
+                            <div class="icon-wrapper">
+                                <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+                            </div>
+                        </div>
+                        <div class="column" id="column2">
+                            <div class="row line" id="row1">
+                                <span class="label" id="label3"></span>
+                            </div>
+                            <div class="row" id="row2">
+                                <span class="value" id="rs"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </main>
+    <%- include('../partials/footer') %>
+    </div>
+    <script src="/javascripts/globalActivity.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

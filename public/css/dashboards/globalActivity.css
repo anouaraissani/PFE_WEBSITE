@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+.main {
+	padding:20px;
+	grid-area: main;
+	background-color: #f8f8f8;
+	display: grid;
+	grid-template-columns: 600px 380px;
+	grid-template-rows: auto 1fr 1fr;;
+	grid-gap:20px;
+	position:relative;
+}
+#card1 {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;    
+    }
+
+   
+      .card {
+        border-radius: 8px;
+        background-color:#ffffff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);   
+        } 
+      
+      
+      .card-header {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        
+      }
+      
+      .card-header p {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+      }
+      
+      .card-content {
+ 
+        display: flex;
+        align-items: center;
+        /* margin-left: 100px; */
+        margin-left: 95px;
+        
+      }
+      .Box{
+        margin: 50px;
+      }
+      .columns {
+        display: flex;
+        /* align-items: center; */
+      }
+
+
+      #column1{
+        flex: 0 0 auto; /*Prevent column from growing  */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-basis: auto;
+
+      }
+
+
+      .icon-wrapper {
+        width: 40px; /* Adjust the width to your desired value */
+        display: flex;
+        justify-content: center; /* Center the icon vertically */
+        /* margin-right: 10px; Add margin to separate icon from text */
+        margin-bottom: 20px;
+      }
+      
+      .row {
+        margin-bottom: 10px;
+      }
+      
+      .label {
+        font-size: 14px;
+        color: #888;
+      }
+      
+      .value {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      
+      .line {
+        border-bottom: 3px solid #ccc;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-radius: 2px;
+      }
+      
+      ion-icon {
+        font-size: 24px;
+        color: #333;
+        margin-right: 10px;
+        
+      }
+      
+      .card:hover{
+        background-color: #f0f0f0;
+        }
+
+        #column2 {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+    /*
+
+.card-content{
+    padding: 30px;
+}
+    
+.card-header{
+    background-color:#f0f0f0;
+    height: 40px;
+    border-radius: 5px 5px 0 0;
+}
+
+.card-header p{
+    margin: 0px;
+    padding:0px;
+    position:relative;
+    top:12px;
+    left:12px;
+    color:#000000;
+    }
+
+.card {
+    border-radius: 5px;
+    background-color:#ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }   
+
+
+.buttonBox{
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    }
+button{
+    padding: 5 px 10 px;
+    margin: 5px;
+    background: #f3b635;
+    color: #332316;
+    border-radius: 5px;
+    }  */

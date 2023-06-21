@@ -1,32 +1,35 @@
+
+
+
 .main {
 	padding:20px;
 	grid-area: main;
 	background-color: #eae0e0;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 270 140px 140px;
+	grid-template-columns: 600px 380px;
+	grid-template-rows: 384PX 1fr 1fr;
 	grid-gap:20px;
 	position:relative;
 }
 #card1 {
-    grid-column-start: 1;
-    grid-column-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: 3;    
+    grid-row-end: 2;    
     }
 
 #card2 {
     grid-column-start: 2;
     grid-column-end: 3;  
-    grid-row-start: 1;
+    grid-row-start: 2;
     grid-row-end: 3;  
     }
 
 #card3 {
     grid-column-start: 1;
-    grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 3;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
     }
     
 
@@ -59,3 +62,18 @@
 .card:hover{
     background-color: #ebebeb;
     }
+
+.buttonBox{
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    }
+button{
+    padding: 5 px 10 px;
+    margin: 5px;
+    background: #f3b635;
+    color: #332316;
+    border-radius: 5px;
+    } 
