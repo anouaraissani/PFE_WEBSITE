@@ -4,14 +4,14 @@ const {queryT_CA, queryT_NBC, queryT_RS} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
-    console.log('the user name: ',user.name)
-    res.render('index.ejs', { name: user.name })
+    console.log('the user name: ',user)
+    res.render('index.ejs', { user })
 } 
 
 const dashboardGA = async (req, res) => {
     const user = await req.user;
-    console.log('the user name: ', user.name);
-    res.render('dashboards/globalActivity.ejs', { name: user.name });
+    console.log('the user name: ', user);
+    res.render('dashboards/globalActivity.ejs', { user });
   };
 
 // Query the database and fetch data
