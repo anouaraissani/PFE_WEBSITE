@@ -7,7 +7,7 @@ fetch('/dashboard/api/dataGA')
     const label1 = document.getElementById('label1')
     label1.textContent = `${data.data1.label}`
     const ca = document.getElementById('ca')
-    ca.textContent = `${data.data1.data} Mrd`
+    ca.textContent = `${data.data1.data} MDA`
 
     const label2 = document.getElementById('label2')
     label2.textContent = `${data.data2.label}`
@@ -17,6 +17,6 @@ fetch('/dashboard/api/dataGA')
     const label3 = document.getElementById('label3')
     label3.textContent = `${data.data3.label}`
     const rs = document.getElementById('rs')
-    rs.textContent = `${data.data3.data} M`
+    rs.textContent = `${data.data3.data} MDA`
   })
 

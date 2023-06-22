@@ -31,7 +31,7 @@ const fetchDataGA= async (req, res) =>{
         //GRAPH 1
         // --------------------------------------------------------------------------------------------------
         //Chiffre d'Affaire
-        const data11 = (result1.rows[0] / 1000000000).toFixed(2);
+        const data11 = (result1.rows[0] / 1000000).toFixed(2);
         const data1 = {
             label: "Chiffre d'Affaire",
             data: data11    

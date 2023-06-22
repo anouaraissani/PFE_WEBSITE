@@ -60,15 +60,30 @@ const queryCA6 = `
 // ----------------------------------------------------
 // GLOBAL ACTIVITY
 const queryT_CA = `
-    SELECT SUM(CA) 
-    FROM fait_production
+    SELECT AVG(total_ca) AS average_ca
+    FROM (
+        SELECT SUM(fp.CA) AS total_ca
+        FROM datawh.fait_production fp
+        INNER JOIN datawh.dim_date dd ON fp.DATE_KEY = dd.DATE_KEY
+        GROUP BY dd.ANNEE
+    )
 `
 const queryT_NBC = `
-    SELECT SUM(affnouvelle  + renouvellement) 
-    FROM fait_production
+    SELECT AVG (total_nb) AS average_ca
+    FROM (
+        SELECT SUM (affnouvelle  + renouvellement) AS total_nb
+        FROM datawh.fait_production fp
+        INNER JOIN datawh.dim_date dd ON fp.DATE_KEY = dd.DATE_KEY
+        GROUP BY dd.ANNEE
+    )
 `
-const queryT_RS = `
-    SELECT SUM(montregl) 
-    FROM fait_reglement
+const queryT_RS = `   
+    SELECT AVG (total_rs) AS average_ca
+    FROM (
+        SELECT SUM (montregl) AS total_rs
+        FROM  datawh.fait_reglement fr
+        INNER JOIN datawh.dim_date dd ON fr.DATE_KEY = dd.DATE_KEY
+        GROUP BY dd.ANNEE
+    )
 `
-module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, queryT_CA, queryT_NBC, queryT_RS}
+module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, queryT_CA, queryT_NBC, queryT_RS, q}
