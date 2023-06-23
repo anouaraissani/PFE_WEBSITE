@@ -57,8 +57,10 @@ const queryCA6 = `
     GROUP BY int.libtypin
     ORDER BY int.libtypin
 `
-// ----------------------------------------------------
+// -------------------------------------------------------------------------------
 // GLOBAL ACTIVITY
+// -------------------------------------------------------------------------------
+// CARD1: La Moyenne Activité Globale par Année
 const queryT_CA = `
     SELECT AVG(total_ca) AS average_ca
     FROM (
@@ -86,4 +88,42 @@ const queryT_RS = `
         GROUP BY dd.ANNEE
     )
 `
-module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, queryT_CA, queryT_NBC, queryT_RS, q}
+// -------------------------------------------------------------------------------
+//  CARD2: 1Les Branches les plus Performantes
+const queryTopBranches = `
+    SELECT *  
+    FROM (
+        SELECT dc.LIBEBRAN
+        FROM datawh.fait_production fp, datawh.dim_categorie dc
+        WHERE fp.CATEGORIE_KEY = dc.CATEGORIE_KEY
+        GROUP BY dc.LIBEBRAN
+        ORDER BY SUM(fp.CA) DESC
+    ) WHERE ROWNUM <= 4
+`
+
+const queryTopBranchesP= `
+    SELECT AVG (total_ca) AS average_ca,  AVG(total_nc) AS average_nc
+    FROM(
+    SELECT dd.ANNEE, SUM (fp.CA) AS total_ca, SUM(affnouvelle  + renouvellement) AS total_nc
+    FROM datawh.fait_production fp, datawh.dim_categorie dc, datawh.dim_date dd
+    where fp.DATE_KEY = dd.DATE_KEY
+    and fp.categorie_KEY = dc.categorie_KEY
+    and DC.LIBEBRAN = :branche 
+    GROUP BY dd.ANNEE
+    )
+`
+
+const queryTopBranchesR= `
+    SELECT AVG (total_rs) AS average_rs
+    FROM(
+        SELECT dd.ANNEE, SUM (fr.montregl) AS total_rs
+        FROM datawh.fait_reglement fr, datawh.dim_categorie dc, datawh.dim_date dd
+        where fr.DATE_KEY = fr.DATE_KEY
+        and fr.categorie_KEY = dc.categorie_KEY
+        and DC.LIBEBRAN = :branche
+        GROUP BY dd.ANNEE
+    )
+`
+// -------------------------------------------------------------------------------
+// CARD3: Les Type d'Intermédiaire les plus Actifs
+module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q, queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR}

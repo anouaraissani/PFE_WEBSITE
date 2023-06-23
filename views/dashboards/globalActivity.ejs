@@ -4,19 +4,29 @@
     <meta charset="UTF-8">
     <title>Chart.js Example</title>
     <link rel="stylesheet" href="/css/dashboards/globalActivity.css" type="text/css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="/css/partials.css" type="text/css" />
     <link rel="shortcut icon" href="/images/saa-logo.png" type="image/x-icon" />
-    
+    <!-- Fontawesome CDN Link -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        />
+        <!-- datatables -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.1/chroma.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 <body>
     <div class="grid-container">
-    <%- include('../partials/header') %> <%- include('../partials/sidebar') %>
+    <%- include('../partials/sidebar') %>
     <main class="main">
 
         <div class="card" id="card1">	
             <div class="card-header">
-                <p>La Moyennes d'Activité Globale par Année</p>
+                <p>La Moyenne Activité Globale par Année</p>
             </div>
             <div class="card-content">	
                 <div class="Box">
@@ -71,12 +81,39 @@
                     </div>
                 </div>
             </div>
-        
+        </div>
+        <div class="card" id="card2">
+            <div class="card-header">
+                <p>Les Branches les plus Performantes</p>
+            </div>
+            <div class="card-content2">
+                <table id="branches_table">
+                    <thead>
+                        <tr>
+                            <th style="width: 17%"></th>
+                            <th style="width: 5%">Chiffre d'Affaire</th>
+                            <th style="width: 7%">Nombre de Contrats</th>
+                            <th style="width: 5%">Règlements Sinistre</th>
+                            <!-- <th style="width: 15%">Pourcentage</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Les données seront ajoutées ici dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       
     </main>
     <%- include('../partials/footer') %>
     </div>
     <script src="/javascripts/globalActivity.js"></script>
+    <!-- for icons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- JavaScript Bootstrap (required )-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-const { getConnection, connect, closePool } = require('../db/connect')
 //authentication middleware 
 const passport = require('passport')
 

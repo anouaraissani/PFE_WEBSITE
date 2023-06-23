@@ -9,18 +9,31 @@
 	grid-area: main;
 	background-color: #f8f8f8;
 	display: grid;
-	/* grid-template-columns: 600px 380px; */
-  grid-template-columns: auto  auto ;
-	grid-template-rows: auto 1fr 1fr;;
+	grid-template-columns: 800px auto;
+  /* grid-template-columns: auto  auto ; */
+	grid-template-rows: auto 1fr 1fr;
 	grid-gap:20px;
 	position:relative;
 }
+
 #card1 {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
     grid-row-end: 2;    
     }
+#card2 {
+      grid-column-start: 1;
+      grid-column-end: 2;
+      grid-row-start: 2;
+      grid-row-end: 3;    
+}
+#card3 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 3;
+  grid-row-end: 4;    
+}
 
 
 .card {
@@ -48,11 +61,11 @@
 .card-content {
   display: flex;
   align-items: center;
-  /* margin-left: 100px; */
-  margin-left: 300px;
+
 }
 .Box{
   margin: 50px;
+  margin-left: 180px;
 }
 .columns {
   display: flex;

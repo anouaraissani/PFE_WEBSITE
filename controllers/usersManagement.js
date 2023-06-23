@@ -41,7 +41,6 @@ const fetchDataUsers = async (req, res) =>{
 
 const getRegister = async (req, res) => {
     const user = await req.user
-    console.log('the user name: ', user);
     res.render('register.ejs', {user})
 }
 
@@ -78,7 +77,6 @@ const editUser = async (req, res) => {
         const result = await connection.execute(`SELECT * FROM USERS WHERE TO_NUMBER(id) = :id`, {id})
         await connection.execute(`commit`)
         const useredit = result.rows[0]
-        console.log(user)
         await connection.close()
         res.render('editUser.ejs', {useredit, user} )
     } catch (error) {
