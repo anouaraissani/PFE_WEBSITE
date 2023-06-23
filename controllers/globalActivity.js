@@ -1,6 +1,6 @@
 
 const { getConnection, connect } = require('../db/connect')
-const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR} = require('../queries')
+const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR, queryCA1, q} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
@@ -35,16 +35,7 @@ const fetchDataGA= async (req, res) =>{
             branchepRows[branche] = branchep.rows
             brancherRows[branche] = branchr.rows
         }
-        const branchesRows = Object.keys(branchepRows).map(branch => [branch, ...branchepRows[branch][0], ...brancherRows[branch][0]])
-        // console.log(branchesRows)
 
-        const branchesRowsUpdated = branchesRows.map(row => [
-            row[0],
-            Math.round(row[1] / 1000000)+ ' M',
-            Math.round(row[2]),
-            Math.round(row[3] / 1000000000)+' Mrd'
-        ])
-        //   console.log(branchesRowsUpdated)
         //------------------------------------------------------------------------------------------------
         // card3
         const resultC31 = await connection.execute(queryTopInter)
@@ -59,17 +50,20 @@ const fetchDataGA= async (req, res) =>{
             InterpRows[Inter] = Interp.rows
             InterrRows[Inter] = interr.rows
         }
-        const IntersRows = Object.keys(InterpRows).map(inter => [inter, ...InterpRows[inter][0], ...InterrRows[inter][0]])
-          // console.log(IntersRows)
+        //------------------------------------------------------------------------------------------------
+        // card4
+        const result4 = await connection.execute(queryCA1)
+        
+        //put years values in an array
+        const yearArray = result4.rows.map(row => row[0]);
+        // create CA_annee_mois vaiable that contains "CA par mois pour chaque année"
+        const CA_annee_mois = {}
+        for (const annee of yearArray) {
+            const d = await connection.execute(q, {annee});
+            CA_annee_mois[annee] = d;
+        } 
+        console.log(CA_annee_mois)
 
-        const IntersRowsUpdated = IntersRows.map(row => [
-                row[0],
-                (row[1] / 1000000).toFixed(2) + ' M',
-                // row[1],
-                Math.round(row[2]),
-                Math.round(row[3] / 1000000)+' M'
-            ])
-        console.log(IntersRowsUpdated)
         await connection.close()
         // --------------------------------------------------------------------------------------------------
         //CARD 1
@@ -99,21 +93,58 @@ const fetchDataGA= async (req, res) =>{
         // --------------------------------------------------------------------------------------------------
         //CARD 2
         // --------------------------------------------------------------------------------------------------
-        
+        const branchesRows = Object.keys(branchepRows).map(branch => [branch, ...branchepRows[branch][0], ...brancherRows[branch][0]])
+        // console.log(branchesRows)
+
+        const branchesRowsUpdated = branchesRows.map(row => [
+            row[0],
+            Math.round(row[1] / 1000000)+ ' M',
+            Math.round(row[2]),
+            Math.round(row[3] / 1000000000)+' Mrd'
+        ])
         const data2 = branchesRowsUpdated
 
         // --------------------------------------------------------------------------------------------------
         //CARD 3
         // --------------------------------------------------------------------------------------------------
+        const IntersRows = Object.keys(InterpRows).map(inter => [inter, ...InterpRows[inter][0], ...InterrRows[inter][0]])
+          // console.log(IntersRows)
+
+        const IntersRowsUpdated = IntersRows.map(row => [
+                row[0],
+                (row[1] / 1000000).toFixed(2) + ' M',
+                // row[1],
+                Math.round(row[2]),
+                Math.round(row[3] / 1000000)+' M'
+            ])
         const data3 = IntersRowsUpdated
         // --------------------------------------------------------------------------------------------------
-        
+        //CARD 3
+        // --------------------------------------------------------------------------------------------------
+        // CA par année
+        const CA_annee = result4.rows.map(row => {
+            return {
+                'annee': parseInt(row[0]),
+                'ca': (row[1]/1000000)
+            };
+        });
+
+        // data1: for each year: total revenue + the revenue for each month
+        const data4 = CA_annee.map(item => ({
+            annee: item.annee,
+            ca: item.ca,
+            moisData: CA_annee_mois[item.annee.toString()].rows.map(row => ({
+                mois: row[0],
+                ca: row[1]
+            }))
+        }));
+
         // combine data in one variable "data"
         const data = {
             data1: data1,
             data2: data2,
             data3: data3,
-            // data4: data4,
+            data4: data4,
             // data5: data5,
             // data6: data6,
         }

@@ -11,7 +11,7 @@ const q = `
     SELECT d.mois, SUM(CA) 
     FROM DATAWH.FAIT_PRODUCTION f, DATAWH.DIM_DATE d
     WHERE f.date_key = d.date_key
-    AND d.annee = 2017
+    AND d.annee = :annee
     GROUP BY d.mois
     ORDER BY d.mois
 `
@@ -89,7 +89,7 @@ const queryT_RS = `
     )
 `
 // -------------------------------------------------------------------------------
-//  CARD2: 1Les Branches les plus Performantes
+//  CARD2: Les Branches les plus Performantes
 const queryTopBranches = `
     SELECT *  
     FROM (
@@ -160,4 +160,5 @@ and di.LIBTYPIN = :inter
 GROUP BY dd.ANNEE
 )
 `
-module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q, queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR}
+
+module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q, queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR, queryTopYearsP, queryTopYearsRS}

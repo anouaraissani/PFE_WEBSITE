@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Chart.js Example</title>
     <link rel="stylesheet" href="/css/dashboards/globalActivity.css" type="text/css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="/css/partials.css" type="text/css" />
     <link rel="shortcut icon" href="/images/saa-logo.png" type="image/x-icon" />
     <!-- Fontawesome CDN Link -->
@@ -16,8 +17,6 @@
             rel="stylesheet"
             href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
         />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.1/chroma.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 <body>
     <div class="grid-container">
@@ -124,6 +123,15 @@
                 </table>
             </div>
         </div>
+        <div class="card" id="card4">
+            <div class="card-header">
+                <p>Chiffre d'Affaire par Période</p>
+            </div>
+            <div class="card-contentChart">
+                <canvas id="ca_par_annee" height="225"></canvas>
+            </div>
+        </div>
+       
     </main>
     <%- include('../partials/footer') %>
     </div>

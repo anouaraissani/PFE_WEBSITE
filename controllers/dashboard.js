@@ -29,9 +29,10 @@ const fetchDataCA= async (req, res) =>{
         // create CA_annee_mois vaiable that contains "CA par mois pour chaque année"
         const CA_annee_mois = {}
         for (const annee of yearArray) {
-            const d = await connection.execute(q);
+            const d = await connection.execute(q, {annee});
             CA_annee_mois[annee] = d;
         } 
+        console.log(CA_annee_mois)
         // create CA_annee_trimestre vaiable that contains "CA par trimestre pour chaque année"
         const CA_annee_trimestre = {}
         for (const annee of yearArray) {

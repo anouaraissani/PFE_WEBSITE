@@ -35,6 +35,13 @@
   grid-row-end: 4;    
 }
 
+#card4 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 4;    
+}
+
 
 .card {
   border-radius: 8px;
@@ -61,6 +68,10 @@
 .card-content {
   display: flex;
   align-items: center;
+
+}
+.card-contentChart {
+  padding: 30px;
 
 }
 .Box{
