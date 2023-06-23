@@ -1,6 +1,6 @@
 
 const { getConnection, connect } = require('../db/connect')
-const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR, queryCA1, q} = require('../queries')
+const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR, queryCA1, q, queryTopYearsP, queryTopYearsRS} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
@@ -24,6 +24,7 @@ const fetchDataGA= async (req, res) =>{
         // -----------------------------------------------------------------------
         // card2
         const resultC21 = await connection.execute(queryTopBranches)
+  
         //put topBranches values in an array
         const topBranches = resultC21.rows.map(row => row[0])
         // create brancheRows vaiable that contains rows of branch, avg(ca), avg(nbc)
@@ -62,8 +63,26 @@ const fetchDataGA= async (req, res) =>{
             const d = await connection.execute(q, {annee});
             CA_annee_mois[annee] = d;
         } 
-        console.log(CA_annee_mois)
+        //------------------------------------------------------------------------------------------------
+        // card5
+        const resultC51 = await connection.execute(queryTopYearsP)
+        // console.log('best years revenue',resultC51)
+        //put topYears values in an array
+        const topYears = resultC51.rows.map(row => row[0])
+        // create yearsRSRows variable that contains rows of years, sum(montrgl)
+        const yearsRSRows = {};
 
+        topYears.forEach((year) => {
+        yearsRSRows[year] = null;
+        });
+
+        for (const year of topYears) {
+        const yearrs = await connection.execute(queryTopYearsRS, { year });
+        yearsRSRows[year] = yearrs.rows;
+        }
+
+        // console.log('RS pour chaque annee',yearsRSRows)
+        //close the database connection
         await connection.close()
         // --------------------------------------------------------------------------------------------------
         //CARD 1
@@ -94,8 +113,6 @@ const fetchDataGA= async (req, res) =>{
         //CARD 2
         // --------------------------------------------------------------------------------------------------
         const branchesRows = Object.keys(branchepRows).map(branch => [branch, ...branchepRows[branch][0], ...brancherRows[branch][0]])
-        // console.log(branchesRows)
-
         const branchesRowsUpdated = branchesRows.map(row => [
             row[0],
             Math.round(row[1] / 1000000)+ ' M',
@@ -119,7 +136,7 @@ const fetchDataGA= async (req, res) =>{
             ])
         const data3 = IntersRowsUpdated
         // --------------------------------------------------------------------------------------------------
-        //CARD 3
+        //CARD 4
         // --------------------------------------------------------------------------------------------------
         // CA par année
         const CA_annee = result4.rows.map(row => {
@@ -128,8 +145,6 @@ const fetchDataGA= async (req, res) =>{
                 'ca': (row[1]/1000000)
             };
         });
-
-        // data1: for each year: total revenue + the revenue for each month
         const data4 = CA_annee.map(item => ({
             annee: item.annee,
             ca: item.ca,
@@ -137,15 +152,36 @@ const fetchDataGA= async (req, res) =>{
                 mois: row[0],
                 ca: row[1]
             }))
-        }));
-
+        }))
+        // --------------------------------------------------------------------------------------------------
+        //CARD 5
+        // --------------------------------------------------------------------------------------------------
+        const yearsRows = resultC51.rows.map((row) => {
+            const year = row[0];
+            const ca = row[1];
+            const nc = row[2];
+            const rs = yearsRSRows[year][0][0];
+            return [year, ca, nc, rs];
+          });
+          
+        //   console.log('p + rs', yearsRows);
+        const yearsRowsUpdated = yearsRows.map(row => [
+                row[0],
+                Math.round(row[1] / 1000000) + ' M',
+                // row[1],
+                Math.round(row[2]),
+                Math.round(row[3] / 1000000)+' M'
+            ])
+            console.log(yearsRowsUpdated)
+        const data5 = yearsRowsUpdated
+        // console.log(data5)
         // combine data in one variable "data"
         const data = {
             data1: data1,
             data2: data2,
             data3: data3,
             data4: data4,
-            // data5: data5,
+            data5: data5,
             // data6: data6,
         }
         // console.log(data.data2[0])

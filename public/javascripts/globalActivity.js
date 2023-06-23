@@ -26,7 +26,8 @@ fetch('/dashboard/api/dataGA')
       
       paging: false,
       searching: false,
-      info:false
+      info:false,
+      ordering: false
     })
 
       const table = $('#branches_table').DataTable();
@@ -42,7 +43,8 @@ fetch('/dashboard/api/dataGA')
       
       paging: false,
       searching: false,
-      info:false
+      info:false,
+      ordering: false
     })
 
       const table2 = $('#inter_table').DataTable();
@@ -203,7 +205,7 @@ const coordinates = {
           const bar = myChart1.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true)
           // console.log('bar is : ',bar)
           if(bar.length){
-             console.log('bar bar bar bar: ',bar[0].index)
+            //  console.log('bar bar bar bar: ',bar[0].index)
             changeChart(bar[0].index)
           }
         }
@@ -301,4 +303,22 @@ const coordinates = {
       })
       
       Chart.register(resetButton)
+
+     // --------------------------------------------------------------------------------------------------
+    //CARD 5
+    // --------------------------------------------------------------------------------------------------
+    $('#years_table').DataTable( {
+      
+      paging: false,
+      searching: false,
+      info:false,
+      ordering: false
+    })
+
+      const table3 = $('#years_table').DataTable();
+      table3.clear().draw(); // Effacer les données existantes dans le tableau
+          // Ajouter les données au tableau
+          dataAPI.data5.forEach((row) => {
+            table3.row.add(row).draw();
+          })
 })

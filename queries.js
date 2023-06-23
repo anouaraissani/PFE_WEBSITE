@@ -160,5 +160,27 @@ and di.LIBTYPIN = :inter
 GROUP BY dd.ANNEE
 )
 `
+// -------------------------------------------------------------------------------
+//  CARD5: Les Années les plus Performantes
 
+const queryTopYearsP = `
+    SELECT *
+    FROM(
+
+    SELECT dd.annee, sum(fp.ca), sum(affnouvelle  + renouvellement)
+    FROM datawh.fait_production fp, datawh.dim_date dd
+    WHERE fp.date_key = dd.date_key
+    GROUP BY dd.annee
+    Order by sum(fp.ca) desc
+    ) WHERE ROWNUM <= 4
+`
+const queryTopYearsRS = `   
+    SELECT sum(montregl)
+    FROM datawh.fait_reglement fr, datawh.dim_date dd
+    WHERE fr.date_key = dd.date_key
+    AND dd.annee = :year
+    GROUP BY dd.annee
+    Order by sum(montregl) desc
+
+`
 module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q, queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR, queryTopYearsP, queryTopYearsRS}
