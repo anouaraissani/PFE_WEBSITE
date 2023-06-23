@@ -1,6 +1,6 @@
 
 const { getConnection, connect } = require('../db/connect')
-const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR} = require('../queries')
+const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
@@ -21,6 +21,7 @@ const fetchDataGA= async (req, res) =>{
         const result1 = await connection.execute(queryT_CA)
         const result2 = await connection.execute(queryT_NBC)
         const result3 = await connection.execute(queryT_RS)
+        // -----------------------------------------------------------------------
         // card2
         const resultC21 = await connection.execute(queryTopBranches)
         //put topBranches values in an array
@@ -42,8 +43,33 @@ const fetchDataGA= async (req, res) =>{
             Math.round(row[1] / 1000000)+ ' M',
             Math.round(row[2]),
             Math.round(row[3] / 1000000000)+' Mrd'
-          ])
+        ])
         //   console.log(branchesRowsUpdated)
+        //------------------------------------------------------------------------------------------------
+        // card3
+        const resultC31 = await connection.execute(queryTopInter)
+        //put topInters values in an array
+        const topInter = resultC31.rows.map(row => row[0])
+        // create interRows vaiable that contains rows ofinter, avg(ca), avg(nbc)
+        const InterpRows = {}
+        const InterrRows = {}
+        for (const Inter of topInter) {
+            const Interp = await connection.execute(queryTopInterP, {Inter})
+            const interr  = await connection.execute(queryTopInterR, {Inter})
+            InterpRows[Inter] = Interp.rows
+            InterrRows[Inter] = interr.rows
+        }
+        const IntersRows = Object.keys(InterpRows).map(inter => [inter, ...InterpRows[inter][0], ...InterrRows[inter][0]])
+          // console.log(IntersRows)
+
+        const IntersRowsUpdated = IntersRows.map(row => [
+                row[0],
+                (row[1] / 1000000).toFixed(2) + ' M',
+                // row[1],
+                Math.round(row[2]),
+                Math.round(row[3] / 1000000)+' M'
+            ])
+        console.log(IntersRowsUpdated)
         await connection.close()
         // --------------------------------------------------------------------------------------------------
         //CARD 1
@@ -79,12 +105,14 @@ const fetchDataGA= async (req, res) =>{
         // --------------------------------------------------------------------------------------------------
         //CARD 3
         // --------------------------------------------------------------------------------------------------
+        const data3 = IntersRowsUpdated
+        // --------------------------------------------------------------------------------------------------
         
         // combine data in one variable "data"
         const data = {
             data1: data1,
             data2: data2,
-            // data3: data3,
+            data3: data3,
             // data4: data4,
             // data5: data5,
             // data6: data6,

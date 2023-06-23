@@ -126,4 +126,38 @@ const queryTopBranchesR= `
 `
 // -------------------------------------------------------------------------------
 // CARD3: Les Type d'Intermédiaire les plus Actifs
-module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q, queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR}
+const queryTopInter = `
+SELECT *  
+    FROM (
+        SELECT di.LIBTYPIN
+        FROM datawh.fait_production fp, datawh.dim_intermediaire di
+        WHERE fp.intermediaire_KEY = di.intermediaire_KEY
+        GROUP BY di.LIBTYPIN
+        ORDER BY SUM(fp.CA) DESC
+    ) WHERE ROWNUM <= 4
+`
+
+const queryTopInterP= `
+    SELECT AVG(total_ca)AS average_ca,  AVG(total_nc) AS average_nc
+    FROM(
+        SELECT dd.ANNEE, SUM (fp.CA) AS total_ca, SUM(affnouvelle  + renouvellement) AS total_nc
+        FROM datawh.fait_production fp, datawh.dim_intermediaire di, datawh.dim_date dd
+        where fp.DATE_KEY = dd.DATE_KEY
+        and fp.intermediaire_KEY = di.intermediaire_KEY
+        and di.LIBTYPIN = :inter
+        GROUP BY dd.ANNEE
+    )
+`
+
+const queryTopInterR= `
+SELECT AVG (total_rs) AS average_rs
+FROM(
+SELECT dd.ANNEE, SUM(fr.montregl) AS total_rs
+FROM datawh.fait_reglement fr, datawh.dim_intermediaire di, datawh.dim_date dd
+where fr.DATE_KEY = dd.DATE_KEY
+and fr.intermediaire_KEY = di.intermediaire_KEY
+and di.LIBTYPIN = :inter
+GROUP BY dd.ANNEE
+)
+`
+module.exports={queryCA1, queryCA2, queryCA3, queryCA4, queryCA5, queryCA6, q, queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR}

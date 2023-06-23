@@ -27,7 +27,7 @@ fetch('/dashboard/api/dataGA')
       paging: false,
       searching: false,
       info:false
-  })
+    })
 
       const table = $('#branches_table').DataTable();
       table.clear().draw(); // Effacer les données existantes dans le tableau
@@ -35,8 +35,22 @@ fetch('/dashboard/api/dataGA')
           data.data2.forEach((row) => {
             table.row.add(row).draw();
           })
-    
-    
+    // --------------------------------------------------------------------------------------------------
+    //CARD 3
+    // --------------------------------------------------------------------------------------------------
+    $('#inter_table').DataTable( {
+      
+      paging: false,
+      searching: false,
+      info:false
+    })
+
+      const table2 = $('#inter_table').DataTable();
+      table2.clear().draw(); // Effacer les données existantes dans le tableau
+          // Ajouter les données au tableau
+          data.data3.forEach((row) => {
+            table2.row.add(row).draw();
+          })
     // const tableBody = document.querySelector('tbody')
 
     // data.data2.forEach(branche => {
