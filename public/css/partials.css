@@ -4,11 +4,9 @@
 :root {
   --color_Yellow: #f2b735;
   --color_Dark1: #000000;
-  /* --color_Dark1: #222222; */
   --color_Dark2: #262626;
   --color_Light1: #f8f8f8;
   --color_Light2: #c4c4c4;
-  /* --color_Light2: #fcfcfc; */
 }
 
 * {
@@ -152,3 +150,26 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+/* Le header */
+
+.date-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.date-container div {
+  width: 500px;
+  text-align:right;
+  padding: 5px 20px;
+}
+
+.date-container div .filterType {
+  margin: 5px;
+  padding: 0px 20px;
+}
+
+.date-container div #date  {
+  color: var(--color_Dark1);
+  font-size:x-large;
+} 
