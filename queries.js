@@ -9,7 +9,7 @@ const queryCA1 = `
 
 const q = `
     SELECT d.mois, SUM(CA) 
-    FROM DATAWH.FAIT_PRODUCTION f, DATAWH.DIM_DATE d
+    FROM FAIT_PRODUCTION f, DIM_DATE d
     WHERE f.date_key = d.date_key
     AND d.annee = :annee
     GROUP BY d.mois
@@ -35,7 +35,7 @@ const queryCA3 = `
 
 const queryCA4 =`
     SELECT cat.libebran, d.annee,  SUM(CA) 
-    FROM DATAWH.FAIT_PRODUCTION prod, DATAWH.DIM_DATE d, DATAWH.DIM_CATEGORIE cat
+    FROM FAIT_PRODUCTION prod, DIM_DATE d, DIM_CATEGORIE cat
     WHERE prod.date_key = d.date_key
     AND cat.categorie_key = prod.categorie_key
     GROUP BY cat.libebran, d.annee
@@ -44,7 +44,7 @@ const queryCA4 =`
 
 const queryCA5 =`
     SELECT int.libtypin, d.annee, SUM(CA) 
-    FROM DATAWH.FAIT_PRODUCTION prod, DATAWH.DIM_DATE d, DATAWH.DIM_INTERMEDIAIRE int
+    FROM FAIT_PRODUCTION prod, DIM_DATE d, DIM_INTERMEDIAIRE int
     WHERE prod.date_key = d.date_key
     AND int.intermediaire_key = prod.intermediaire_key
     GROUP BY int.libtypin, d.annee
@@ -52,7 +52,7 @@ const queryCA5 =`
 `
 const queryCA6 = `
     SELECT int.libtypin, SUM(CA)
-    FROM DATAWH.FAIT_PRODUCTION prod, DATAWH.DIM_INTERMEDIAIRE int
+    FROM FAIT_PRODUCTION prod, DIM_INTERMEDIAIRE int
     WHERE int.intermediaire_key = prod.intermediaire_key
     GROUP BY int.libtypin
     ORDER BY int.libtypin
@@ -65,8 +65,8 @@ const queryT_CA = `
     SELECT AVG(total_ca) AS average_ca
     FROM (
         SELECT SUM(fp.CA) AS total_ca
-        FROM datawh.fait_production fp
-        INNER JOIN datawh.dim_date dd ON fp.DATE_KEY = dd.DATE_KEY
+        FROM fait_production fp
+        INNER JOIN dim_date dd ON fp.DATE_KEY = dd.DATE_KEY
         GROUP BY dd.ANNEE
     )
 `
@@ -74,8 +74,8 @@ const queryT_NBC = `
     SELECT AVG (total_nb) AS average_ca
     FROM (
         SELECT SUM (affnouvelle  + renouvellement) AS total_nb
-        FROM datawh.fait_production fp
-        INNER JOIN datawh.dim_date dd ON fp.DATE_KEY = dd.DATE_KEY
+        FROM fait_production fp
+        INNER JOIN dim_date dd ON fp.DATE_KEY = dd.DATE_KEY
         GROUP BY dd.ANNEE
     )
 `
@@ -83,8 +83,8 @@ const queryT_RS = `
     SELECT AVG (total_rs) AS average_ca
     FROM (
         SELECT SUM (montregl) AS total_rs
-        FROM  datawh.fait_reglement fr
-        INNER JOIN datawh.dim_date dd ON fr.DATE_KEY = dd.DATE_KEY
+        FROM  fait_reglement fr
+        INNER JOIN dim_date dd ON fr.DATE_KEY = dd.DATE_KEY
         GROUP BY dd.ANNEE
     )
 `
@@ -94,7 +94,7 @@ const queryTopBranches = `
     SELECT *  
     FROM (
         SELECT dc.LIBEBRAN
-        FROM datawh.fait_production fp, datawh.dim_categorie dc
+        FROM fait_production fp, dim_categorie dc
         WHERE fp.CATEGORIE_KEY = dc.CATEGORIE_KEY
         GROUP BY dc.LIBEBRAN
         ORDER BY SUM(fp.CA) DESC
@@ -105,7 +105,7 @@ const queryTopBranchesP= `
     SELECT AVG (total_ca) AS average_ca,  AVG(total_nc) AS average_nc
     FROM(
     SELECT dd.ANNEE, SUM (fp.CA) AS total_ca, SUM(affnouvelle  + renouvellement) AS total_nc
-    FROM datawh.fait_production fp, datawh.dim_categorie dc, datawh.dim_date dd
+    FROM fait_production fp, dim_categorie dc, dim_date dd
     where fp.DATE_KEY = dd.DATE_KEY
     and fp.categorie_KEY = dc.categorie_KEY
     and DC.LIBEBRAN = :branche 
@@ -117,7 +117,7 @@ const queryTopBranchesR= `
     SELECT AVG (total_rs) AS average_rs
     FROM(
         SELECT dd.ANNEE, SUM (fr.montregl) AS total_rs
-        FROM datawh.fait_reglement fr, datawh.dim_categorie dc, datawh.dim_date dd
+        FROM fait_reglement fr, dim_categorie dc, dim_date dd
         where fr.DATE_KEY = fr.DATE_KEY
         and fr.categorie_KEY = dc.categorie_KEY
         and DC.LIBEBRAN = :branche
@@ -130,7 +130,7 @@ const queryTopInter = `
 SELECT *  
     FROM (
         SELECT di.LIBTYPIN
-        FROM datawh.fait_production fp, datawh.dim_intermediaire di
+        FROM fait_production fp, dim_intermediaire di
         WHERE fp.intermediaire_KEY = di.intermediaire_KEY
         GROUP BY di.LIBTYPIN
         ORDER BY SUM(fp.CA) DESC
@@ -141,7 +141,7 @@ const queryTopInterP= `
     SELECT AVG(total_ca)AS average_ca,  AVG(total_nc) AS average_nc
     FROM(
         SELECT dd.ANNEE, SUM (fp.CA) AS total_ca, SUM(affnouvelle  + renouvellement) AS total_nc
-        FROM datawh.fait_production fp, datawh.dim_intermediaire di, datawh.dim_date dd
+        FROM fait_production fp, dim_intermediaire di, dim_date dd
         where fp.DATE_KEY = dd.DATE_KEY
         and fp.intermediaire_KEY = di.intermediaire_KEY
         and di.LIBTYPIN = :inter
@@ -153,7 +153,7 @@ const queryTopInterR= `
 SELECT AVG (total_rs) AS average_rs
 FROM(
 SELECT dd.ANNEE, SUM(fr.montregl) AS total_rs
-FROM datawh.fait_reglement fr, datawh.dim_intermediaire di, datawh.dim_date dd
+FROM fait_reglement fr, dim_intermediaire di, dim_date dd
 where fr.DATE_KEY = dd.DATE_KEY
 and fr.intermediaire_KEY = di.intermediaire_KEY
 and di.LIBTYPIN = :inter
@@ -168,7 +168,7 @@ const queryTopYearsP = `
     FROM(
 
     SELECT dd.annee, sum(fp.ca), sum(affnouvelle  + renouvellement)
-    FROM datawh.fait_production fp, datawh.dim_date dd
+    FROM fait_production fp, dim_date dd
     WHERE fp.date_key = dd.date_key
     GROUP BY dd.annee
     Order by sum(fp.ca) desc
@@ -176,7 +176,7 @@ const queryTopYearsP = `
 `
 const queryTopYearsRS = `   
     SELECT sum(montregl)
-    FROM datawh.fait_reglement fr, datawh.dim_date dd
+    FROM fait_reglement fr, dim_date dd
     WHERE fr.date_key = dd.date_key
     AND dd.annee = :year
     GROUP BY dd.annee
