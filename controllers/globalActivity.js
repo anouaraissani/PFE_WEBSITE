@@ -1,6 +1,6 @@
 
 const { getConnection, connect } = require('../db/connect')
-const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR, queryCA1, q, queryTopYearsP, queryTopYearsRS} = require('../queries')
+const {queryT_CA, queryT_NBC, queryT_RS, queryTopBranches, queryTopBranchesP, queryTopBranchesR, queryTopInter, queryTopInterP, queryTopInterR, queryCA1, q, queryTopYearsP, queryTopYearsRS, queryCA3} = require('../queries')
 
 const dashboard = async (req, res) => {
     const user = await req.user
@@ -38,7 +38,7 @@ const fetchDataGA= async (req, res) =>{
         }
 
         //------------------------------------------------------------------------------------------------
-        // card3
+        // card3 
         const resultC31 = await connection.execute(queryTopInter)
         //put topInters values in an array
         const topInter = resultC31.rows.map(row => row[0])
@@ -82,6 +82,14 @@ const fetchDataGA= async (req, res) =>{
         }
 
         // console.log('RS pour chaque annee',yearsRSRows)
+        //------------------------------------------------------------------------------------------------
+        // card6
+        // create CA_annee_trimestre vaiable that contains "CA par trimestre pour chaque année"
+        const CA_annee_trimestre = {}
+        for (const annee of yearArray) {
+            const d = await connection.execute(queryCA3, {annee});
+            CA_annee_trimestre[annee] = d;
+        }  
         //close the database connection
         await connection.close()
         // --------------------------------------------------------------------------------------------------
@@ -172,9 +180,31 @@ const fetchDataGA= async (req, res) =>{
                 Math.round(row[2]),
                 Math.round(row[3] / 1000000)+' M'
             ])
-            console.log(yearsRowsUpdated)
         const data5 = yearsRowsUpdated
-        // console.log(data5)
+        // --------------------------------------------------------------------------------------------------
+        // GRAPH 6
+        const datasets = [];
+
+        for (let i = 1; i <= 4; i++) {
+        const quarterData = {
+            label: `T${i}`,
+            data: Object.values(CA_annee_trimestre).map((yearData) => {
+            const rows = yearData.rows;
+            const row = rows.find((r) => r[0] === i);
+            return row ? row[1] : 0;
+            }),
+        };
+        datasets.push(quarterData)
+        }   
+        // Divide the datasets.data values by 10,000,000
+        const transformedDatasets = datasets.map(dataset => ({
+            ...dataset,
+            data: dataset.data.map(value => value / 1000000)
+        }))
+        const data6 = {
+            labels: yearArray,
+            datasets: transformedDatasets
+        }
         // combine data in one variable "data"
         const data = {
             data1: data1,
@@ -182,7 +212,7 @@ const fetchDataGA= async (req, res) =>{
             data3: data3,
             data4: data4,
             data5: data5,
-            // data6: data6,
+            data6: data6,
         }
         // console.log(data.data2[0])
         // console.log('fetch data:',data)

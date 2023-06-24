@@ -11,7 +11,7 @@
 	display: grid;
 	grid-template-columns: 800px auto;
   /* grid-template-columns: auto  auto ; */
-	grid-template-rows: auto 1fr auto auto;
+	grid-template-rows: auto 1fr auto auto auto;
 	grid-gap:20px;
 	position:relative;
 }
@@ -32,22 +32,27 @@
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 3;
-  grid-row-end: 4;    
+  grid-row-end: 5;    
 }
 
 #card4 {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
-  grid-row-end: 5;    
+  grid-row-end: 4;    
 }
 #card5 {
   grid-column-start: 1;
   grid-column-end: 2;
-  grid-row-start: 4;
-  grid-row-end: 5;    
+  grid-row-start: 5;
+  grid-row-end: 6;    
 }
-
+#card6 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 4;
+  grid-row-end: 6;    
+}
 
 
 
@@ -148,3 +153,16 @@ ion-icon {
   align-items: center;
   justify-content: center;
 }
+.buttonBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  }
+button{
+  /* padding: 5 px 10 px; */
+  margin: 5px;
+  background: #f3b635;
+  color: #332316;
+  border-radius: 5px;
+  }  
