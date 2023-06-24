@@ -304,7 +304,7 @@ const coordinates = {
       
       Chart.register(resetButton)
 
-     // --------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------
     //CARD 5
     // --------------------------------------------------------------------------------------------------
     $('#years_table').DataTable( {
@@ -321,4 +321,49 @@ const coordinates = {
           dataAPI.data5.forEach((row) => {
             table3.row.add(row).draw();
           })
+    // --------------------------------------------------------------------------------------------------
+    //CARD 5
+    // --------------------------------------------------------------------------------------------------
+          //get the datasets from dataJ
+      const datasetsChar3 =  dataAPI.data6.datasets
+      // assign a color to each bar
+      datasetsChar3.forEach((quarter, index) => {
+        quarter.backgroundColor = colorsData[index].color;
+        quarter.borderColor = colorsData[index].borderColor;
+      });
+      myChart3 = new Chart('cd-par-trimestre', {
+        type: 'bar',
+        data: {
+          labels: dataAPI.data6.labels,
+          datasets:  datasetsChar3,  
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          borderWidth: 1,
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+          // if the data values are not visible show it else hide the data
+          function toggleData(value) {
+            if (myChart3) {
+              const showValue = myChart3.isDatasetVisible(value);
+              if (showValue === true) {
+                myChart3.hide(value);
+              } else {
+                myChart3.show(value);
+              }
+            }
+          }
+          // Attach the toggleData function to the button onclick event
+          const buttons = document.querySelectorAll('.buttonBox button');
+          buttons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+              toggleData(index);
+            });
+          });
 })
