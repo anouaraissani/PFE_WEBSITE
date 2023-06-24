@@ -180,7 +180,6 @@ const fetchDataGA= async (req, res) =>{
                 Math.round(row[2]),
                 Math.round(row[3] / 1000000)+' M'
             ])
-            console.log(yearsRowsUpdated)
         const data5 = yearsRowsUpdated
         // --------------------------------------------------------------------------------------------------
         // GRAPH 6
@@ -195,12 +194,17 @@ const fetchDataGA= async (req, res) =>{
             return row ? row[1] : 0;
             }),
         };
-        datasets.push(quarterData);
+        datasets.push(quarterData)
         }   
+        // Divide the datasets.data values by 10,000,000
+        const transformedDatasets = datasets.map(dataset => ({
+            ...dataset,
+            data: dataset.data.map(value => value / 1000000)
+        }))
         const data6 = {
             labels: yearArray,
-            datasets: datasets
-        };
+            datasets: transformedDatasets
+        }
         // combine data in one variable "data"
         const data = {
             data1: data1,
