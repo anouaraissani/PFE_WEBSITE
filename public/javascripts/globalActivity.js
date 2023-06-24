@@ -193,7 +193,7 @@ const coordinates = {
               beginAtZero: true
             }
           },        
-        }
+        },
       }    
       )
       
@@ -304,6 +304,7 @@ const coordinates = {
       
       Chart.register(resetButton)
 
+
     // --------------------------------------------------------------------------------------------------
     //CARD 5
     // --------------------------------------------------------------------------------------------------
@@ -349,15 +350,18 @@ const coordinates = {
         }
       });
           // if the data values are not visible show it else hide the data
-          function toggleData(value) {
+          function toggleData(index) {
             if (myChart3) {
-              const showValue = myChart3.isDatasetVisible(value);
-              if (showValue === true) {
-                myChart3.hide(value);
-              } else {
-                myChart3.show(value);
-              }
+              myChart3.data.datasets.forEach((dataset, datasetIndex) => {
+                if (datasetIndex === index) {
+                  dataset.hidden = false; // Set the clicked dataset to visible
+                } else {
+                  dataset.hidden = true; // Hide the other datasets
+                }
+              })
+              myChart3.update(); // Update the chart to apply the changes
             }
+
           }
           // Attach the toggleData function to the button onclick event
           const buttons = document.querySelectorAll('.buttonBox button');
@@ -365,5 +369,19 @@ const coordinates = {
             button.addEventListener('click', () => {
               toggleData(index);
             });
-          });
+          })
+          
+          // Get the reference to the show all button
+          const showAllButton = document.getElementById('showAllButton');
+
+          // Add a click event listener to the show all button
+          showAllButton.addEventListener('click', () => {
+            if (myChart3) {
+              myChart3.data.datasets.forEach((dataset) => {
+                dataset.hidden = false; // Set all datasets to visible
+              });
+              myChart3.update(); // Update the chart to apply the changes
+            }
+          })
+
 })
