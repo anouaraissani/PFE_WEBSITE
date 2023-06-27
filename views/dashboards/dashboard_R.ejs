@@ -28,8 +28,22 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   </head>
   <body>
+    
     <div class="grid-container">
-      <%- include('../partials/header') %> <%- include('../partials/sidebar') %>
+      <header class="header">
+        <div class="date-container">
+          <div>
+              <h1 id="date"></h1>
+          </div>
+          <div>
+              <select id="filterType-page3">
+                  <option value="year">Cumulé</option>
+                  <option value="month">Mois</option>
+              </select>
+          </div>  
+      </div>
+      </header> 
+      <%- include('../partials/sidebar') %>
       <main class="main">
       <div class="card" id="card0">
         <div class="card-header">

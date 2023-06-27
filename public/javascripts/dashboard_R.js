@@ -15,7 +15,7 @@ const monthNames = [
   ];
   const d = new Date();
   const dateDisplay = document.getElementById("date");
-  dateDisplay.innerHTML = "Exercice du mois de : " + monthNames[d.getMonth()];
+  dateDisplay.innerHTML = "Exercice du mois de : " + monthNames[d.getMonth() -1];
   
   // Récupérer les années: Récupérer l'année en cours puis retourner un tableau à 2 valeurs
   const currentYear = new Date().getFullYear();
@@ -87,7 +87,7 @@ const monthNames = [
   
   document.addEventListener("DOMContentLoaded", () => {
     // Récupérer l'etat du select
-    const filterCumule = document.getElementById("filterType");
+    const filterCumule = document.getElementById("filterType-page3");
     console.log(filterCumule);
     let route = "/dashboard/api/dataR";
   
