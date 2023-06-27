@@ -262,6 +262,295 @@ const queryR5MoisException = `
     AND D.MOIS = 12  
     )
     `
+
+
+// ----------------------------------------------------
+// DASHBOARD Chiffre d'Affaires
+/* =================================     CUMULE       ============================= */
+
+const queryCA1 = `
+    SELECT
+    SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -1 THEN PROD.CA ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) - 2 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+    FAIT_PRODUCTION PROD , DIM_DATE D
+    WHERE
+    PROD.DATE_KEY = D.DATE_KEY
+    AND D.MOIS < EXTRACT(MONTH FROM CURRENT_DATE)
+    `;
+const queryCA1Exception = `
+    SELECT
+    SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -2 THEN PROD.CA ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) -3 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+    FAIT_PRODUCTION PROD, DIM_DATE D
+    WHERE
+    PROD.DATE_KEY = D.DATE_KEY
+    AND D.MOIS <= 12
+    `;
+const queryCA2 = `
+    SELECT
+    INTER.LIBTYPIN,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) - 1 THEN PROD.CA ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) - 2 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+      FAIT_PRODUCTION PROD, DIM_INTERMEDIAIRE inter, DIM_DATE d
+    WHERE
+        PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS < EXTRACT(MONTH FROM CURRENT_DATE) 
+    GROUP BY
+        INTER.LIBTYPIN
+    ORDER BY
+        annee_prec DESC
+    `;
+const queryCA2Exception = `
+    SELECT
+    INTER.LIBTYPIN,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) - 2 THEN PROD.CA ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) - 3 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+      FAIT_PRODUCTION PROD, DIM_INTERMEDIAIRE inter, DIM_DATE d
+    WHERE
+        PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS <= 12
+    GROUP BY
+        INTER.LIBTYPIN
+    ORDER BY
+    annee_prec DESC
+    `;
+const queryCA3 = `
+    SELECT CAT.libebran,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) -1 THEN PROD.CA ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE)-2 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+    FAIT_PRODUCTION PROD, DIM_CATEGORIE CAT, DIM_DATE d 
+    WHERE
+        PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS < EXTRACT (MONTH FROM CURRENT_DATE ) 
+    GROUP BY
+        CAT.libebran
+    ORDER BY
+    annee_prec ASC
+    `;
+const queryCA3Exception = `
+    SELECT CAT.libebran,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE)-2 THEN PROD.CA ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE)-3 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+      FAIT_PRODUCTION PROD, DIM_CATEGORIE CAT, DIM_DATE d 
+    WHERE
+        PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS <= 12
+    GROUP BY
+        CAT.libebran
+    ORDER BY
+    annee_prec ASC
+    `;
+const queryCA4 = `
+    SELECT D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN ,  sum( PROD.CA  )  as s
+    FROM FAIT_PRODUCTION PROD, DIM_INTERMEDIAIRE inter, DIM_CATEGORIE cat, DIM_DATE d
+    WHERE PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+    AND PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+    AND  PROD.DATE_KEY =  D.DATE_KEY
+    AND D.MOIS < EXTRACT (MONTH from CURRENT_DATE)
+    AND D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -1
+    GROUP BY D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN
+    ORDER BY s desc
+    `;
+const queryCA4Exception = `
+    SELECT D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN , sum( PROD.CA)  as s
+    FROM FAIT_PRODUCTION PROD, DIM_INTERMEDIAIRE inter, DIM_CATEGORIE cat, DIM_DATE d
+    WHERE PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+    AND PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+    AND  PROD.DATE_KEY =  D.DATE_KEY
+    AND D.MOIS <= 12
+    AND D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -2
+    GROUP BY D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN
+    ORDER BY s desc
+    `;
+const queryCA5 = `
+    SELECT ((annee_en_cours - annee_prec) / annee_prec) AS pourcentage
+    FROM (
+      SELECT
+        SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -1 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+        SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) - 2 THEN PROD.CA ELSE 0 END) AS annee_prec
+        FROM
+        FAIT_PRODUCTION PROD, DIM_DATE D
+        WHERE
+        PROD.DATE_KEY = D.DATE_KEY
+        AND D.MOIS < EXTRACT (MONTH from CURRENT_DATE)
+        )`;
+const queryCA5Exception = `
+    SELECT ((annee_en_cours - annee_prec) / annee_prec) AS pourcentage
+    FROM (
+    SELECT
+    SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -2 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) - 3 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+    FAIT_PRODUCTION PROD, DIM_DATE D
+    WHERE
+    PROD.DATE_KEY = D.DATE_KEY
+    AND D.MOIS <= 12  
+    )
+    `;
+/* =================================     MOIS       ============================= */
+
+const queryCA1Mois = `
+    SELECT
+    SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -1 THEN PROD.CA ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) - 2 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+    FAIT_PRODUCTION PROD, DIM_DATE D
+    WHERE
+    PROD.DATE_KEY = D.DATE_KEY
+    AND D.MOIS = EXTRACT(MONTH FROM CURRENT_DATE) - 1
+    `;
+const queryCA1MoisException = `
+    SELECT
+    SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -2 THEN PROD.CA   ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) - 3 THEN PROD.CA  ELSE 0 END) AS annee_prec
+    FROM
+    NODE.FAIT_PRODUCTION PROD, NODE.DIM_DATE D
+    WHERE
+    PROD.DATE_KEY = D.DATE_KEY
+    AND D.MOIS = 12
+    `;
+const queryCA2Mois = `
+    SELECT
+    INTER.LIBTYPIN,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) - 1 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) - 2 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+        NODE.FAIT_PRODUCTION PROD, NODE.DIM_INTERMEDIAIRE inter, NODE.DIM_DATE d
+    WHERE
+        PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS = EXTRACT(MONTH FROM CURRENT_DATE) - 1
+    GROUP BY
+        INTER.LIBTYPIN
+    ORDER BY
+        annee_prec DESC
+    `;
+const queryCA2MoisException = `
+    SELECT
+    INTER.LIBTYPIN,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) -2 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE)-3 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+        NODE.FAIT_PRODUCTION PROD, NODE.DIM_INTERMEDIAIRE inter, NODE.DIM_DATE d
+    WHERE
+        PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS = 12
+    GROUP BY
+        INTER.LIBTYPIN
+    ORDER BY
+        annee_prec DESC
+    `;
+const queryCA3Mois = `
+    SELECT CAT.libebran,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE) -1 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE)-2 THEN PROD.CA  ELSE 0 END) AS annee_prec
+    FROM
+        NODE.FAIT_PRODUCTION PROD, NODE.DIM_CATEGORIE CAT, NODE.DIM_DATE d 
+    WHERE
+        PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS = EXTRACT (MONTH FROM CURRENT_DATE ) -1
+    GROUP BY
+        CAT.libebran
+    ORDER BY
+    annee_prec ASC
+    `;
+const queryCA3MoisException = `
+    SELECT CAT.libebran,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE)-2 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE = EXTRACT(YEAR FROM CURRENT_DATE)-3 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+        NODE.FAIT_PRODUCTION PROD, NODE.DIM_CATEGORIE CAT, NODE.DIM_DATE d 
+    WHERE
+        PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+        AND PROD.DATE_KEY = d.DATE_KEY
+        AND D.MOIS = 12
+    GROUP BY
+        CAT.libebran
+    ORDER BY
+    annee_prec ASC
+    `;
+const queryCA4Mois = `
+    SELECT D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN ,  sum( PROD.CA  )  as s
+    FROM NODE.FAIT_PRODUCTION PROD, NODE.DIM_INTERMEDIAIRE inter, NODE.DIM_CATEGORIE cat, NODE.DIM_DATE d
+    WHERE PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+    AND PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+    AND  PROD.DATE_KEY =  D.DATE_KEY
+    AND D.MOIS = EXTRACT (MONTH from CURRENT_DATE) -1
+    AND D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -1
+    GROUP BY D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN
+    ORDER BY s desc 
+    `;
+const queryCA4MoisException = `
+    SELECT D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN , sum( PROD.CA )  as s
+    FROM NODE.FAIT_PRODUCTION PROD, NODE.DIM_INTERMEDIAIRE inter, NODE.DIM_CATEGORIE cat, NODE.DIM_DATE d
+    WHERE PROD.CATEGORIE_KEY = CAT.CATEGORIE_KEY
+    AND PROD.INTERMEDIAIRE_KEY = INTER.INTERMEDIAIRE_KEY
+    AND  PROD.DATE_KEY =  D.DATE_KEY
+    AND D.MOIS = 12
+    AND D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -2
+    GROUP BY D.ANNEE, D.LIBMOIS, CAT.LIBECATE, INTER.LIBTYPIN
+    ORDER BY s desc
+    `;
+const queryCA5Mois = `
+    SELECT ((annee_en_cours - annee_prec) / annee_prec) AS pourcentage
+    FROM (
+       SELECT
+        SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -1 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+        SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) - 2 THEN PROD.CA ELSE 0 END) AS annee_prec
+        FROM
+        FAIT_PRODUCTION PROD, DIM_DATE D
+        WHERE
+        PROD.DATE_KEY = D.DATE_KEY
+        AND D.MOIS = 12  
+        )`;
+const queryCA5MoisException = `
+    SELECT ((annee_en_cours - annee_prec) / annee_prec) AS pourcentage
+    FROM (
+    SELECT
+    SUM(CASE WHEN D.ANNEE = EXTRACT (YEAR FROM CURRENT_DATE) -2 THEN PROD.CA  ELSE 0 END) AS annee_en_cours,
+    SUM(CASE WHEN D.ANNEE =  EXTRACT (YEAR FROM CURRENT_DATE) - 3 THEN PROD.CA ELSE 0 END) AS annee_prec
+    FROM
+    FAIT_PRODUCTION PROD, DIM_DATE D
+    WHERE
+    PROD.DATE_KEY = D.DATE_KEY
+    AND D.MOIS = 12  
+    )
+    `;
+
+
+    
 module.exports={queryR1, queryR1Exception, queryR2, queryR2Exception, queryR3, queryR3Exception , queryR4, queryR4Exception,
                 queryR1Mois, queryR1MoisException, queryR2Mois, queryR2MoisException, queryR3Mois, queryR3MoisException , queryR4Mois, queryR4MoisException,
-                queryR5, queryR5Exception, queryR5Mois, queryR5MoisException }
+                queryR5, queryR5Exception, queryR5Mois, queryR5MoisException, 
+                queryCA1,
+                queryCA1Exception,
+                queryCA2,
+                queryCA2Exception,
+                queryCA3,
+                queryCA3Exception,
+                queryCA4,
+                queryCA4Exception,
+                queryCA1Mois,
+                queryCA1MoisException,
+                queryCA2Mois,
+                queryCA2MoisException,
+                queryCA3Mois,
+                queryCA3MoisException,
+                queryCA4Mois,
+                queryCA4MoisException,
+                queryCA5,
+                queryCA5Exception,
+                queryCA5Mois,
+                queryCA5MoisException}
