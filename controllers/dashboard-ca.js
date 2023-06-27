@@ -25,7 +25,7 @@ const {queryCA1,
 const dashboardCA= async (req, res) => {
     const user = await req.user
     console.log('the user name: ',user)
-    res.render('dashboards/dashboard_CA.ejs', { user })
+    res.render('dashboards/dashboard_ChA.ejs', { user })
 } 
 
 // Fonction pour récupérer le mois en cours - 1
