@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Dashboard SAA</title>
+    <link rel="shortcut icon" href="/images/saa-logo.png" type="image/x-icon" />
+    <!-- Fontawesome CDN Link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.1/chroma.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="/css/dashboards/dashboards.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="/css/partials.css" type="text/css" />
+    <!-- datatables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  </head>
+  <body>
+    
+    <div class="grid-container">
+      <header class="header">
+        <div class="date-container">
+          <div>
+              <h1 id="date"></h1>
+          </div>
+          <div>
+              <select id="filterType-page1">
+                  <option value="year">Cumulé</option>
+                  <option value="month">Mois</option>
+              </select>
+          </div>  
+      </div>
+      </header> 
+      <%- include('../partials/sidebar') %>
+      <main class="main">
+      <div class="card" id="card0">
+        <div class="card-header">
+          <p>Performance</p>
+        </div>
+        <div class="sales-card">
+        <h2>Nombre de Contrats</h2>
+        <div class="line-container">
+          <hr class="line">
+        </div>
+        <p id="c-performance"></p>
+      </div>
+      </div>
+        <div class="card" id="card1">
+          <div class="card-header">
+            <p>Nombre de Contrats par Année</p>
+          </div>
+          <div class="card-content">
+            <canvas id="c-bar-chart1"></canvas>
+          </div>
+        </div>
+        <div class="card" id="card2">
+          <div class="card-header">
+            <p>Nombre de Contrats par Type d'Intermédiaire</p>
+          </div>
+          <div class="card-content">
+            <canvas id="c-bar-chart2"></canvas>
+          </div>
+        </div>
+        <div class="card" id="card3">
+          <div class="card-header">
+            <p>Nombre de Contrats par Branche</p>
+          </div>
+          <div class="card-content">
+            <canvas id="c-doughnut-chart"></canvas>
+          </div>
+        </div>
+        <div class="card" id="card4">
+          <div class="card-header">
+            <p>Nombre de Contrats par Types d'Intermédiaires et par Produits</p>
+          </div>
+          <div class="card-content">
+              <table id="c-tableau">
+                <thead>
+                  <tr>
+                    <th style="width: 10%" >Année</th>
+                    <th style="width: 10%" >Mois</th>
+                    <th style="width: 25%" >Produit d'Assurance</th>
+                    <th style="width: 25%" >Type de l'Intermédiaire</th>
+                    <th style="width: 15%" >Nombre de Contrats</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>      
+          </div>
+        </div>
+      </main>
+      <%- include('../partials/footer') %>
+    </div>
+    <script src="/javascripts/dashboard_C.js"></script>
+    <!-- JavaScript Bootstrap (jQuery required) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

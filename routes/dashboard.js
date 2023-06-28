@@ -6,6 +6,7 @@ const {checkAuthenticated} = require('../middlewares/authentification')
 const { dashboardGA, fetchDataGA } = require('../controllers/globalActivity')
 const { dashboardR, fetchDataR, fetchDataRMois } = require('../controllers/dashboard-reglements')
 const { dashboardCA, fetchDataCA, fetchDataCAMois } = require('../controllers/dashboard-ca')
+const { dashboardC, fetchDataC, fetchDataCMois } = require('../controllers/dashboard-contrats')
 //use static files(.css, .html, ...)
 router.use(express.static('./views'))
 
@@ -27,6 +28,10 @@ router.get('/api/dataCA', checkAuthenticated, fetchDataCA)
 router.get('/api/dataCAMois', checkAuthenticated, fetchDataCAMois)
 router.get('/chiffre-d-affaires', checkAuthenticated, dashboardCA)
 
-router.get('/nombre-de-contrats', checkAuthenticated, dashboardContrats)
+
+//  Dashboard des contrats
+router.get('/api/dataCA', checkAuthenticated, fetchDataC)
+router.get('/api/dataCAMois', checkAuthenticated, fetchDataCMois)
+router.get('/nombre-de-contrats', checkAuthenticated, dashboardC)
 
 module.exports = router
