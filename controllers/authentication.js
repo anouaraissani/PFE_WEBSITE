@@ -6,7 +6,7 @@ const getLogin = (req, res) => {
 }
 
 const postLogin = passport.authenticate('local', {
-    successRedirect: '/dashboard',
+    successRedirect: '/dashboard/activite-globale',
     failureRedirect: '/auth/login',
     failureFlash: true
 })
