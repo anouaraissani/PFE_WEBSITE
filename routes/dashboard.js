@@ -30,8 +30,8 @@ router.get('/chiffre-d-affaires', checkAuthenticated, dashboardCA)
 
 
 //  Dashboard des contrats
-router.get('/api/dataCA', checkAuthenticated, fetchDataC)
-router.get('/api/dataCAMois', checkAuthenticated, fetchDataCMois)
+router.get('/api/dataC', checkAuthenticated, fetchDataC)
+router.get('/api/dataCMois', checkAuthenticated, fetchDataCMois)
 router.get('/nombre-de-contrats', checkAuthenticated, dashboardC)
 
 module.exports = router

@@ -63,8 +63,8 @@ const fetchDataC = async (req, res) =>{
         
         // --------------------------------------------------------------------------------------------------
         // Contrats par année
-        const anneeActu12 = (result1.rows[0][0] / 1000000).toFixed(2);
-        const anneePrec11 = (result1.rows[0][1] / 1000000).toFixed(2);
+        const anneeActu12 = (result1.rows[0][0]);
+        const anneePrec11 = (result1.rows[0][1]);
         const data1 = {
             label: "Contrats",
             anneePrec   : anneePrec11,
@@ -74,21 +74,21 @@ const fetchDataC = async (req, res) =>{
 
         const data2 = {
             label: result2.rows.map(row => row[0]),
-            anneeActu: result2.rows.map(row => (row[1] / 1000000).toFixed(2)),
-            anneePrec : result2.rows.map(row => (row[2] / 1000000).toFixed(2)),
+            anneeActu: result2.rows.map(row => (row[1])),
+            anneePrec : result2.rows.map(row => (row[2])),
         }
 
         // Contrats par Catégorie
 
         const data3 = {
             label: result3.rows.map(row => row[0]),
-            anneeActu: result3.rows.map(row => (row[1] / 1000000).toFixed(2)),
-            anneePrec: result3.rows.map(row => (row[2] / 1000000).toFixed(2)),
+            anneeActu: result3.rows.map(row => (row[1] )),
+            anneePrec: result3.rows.map(row => (row[2] )),
         }
 
         // Tableau
 
-         const data4 = result4.rows.map((row) => [row[0], row[1], row[2], row[3], (row[4] / 1000000).toFixed(2)]);
+         const data4 = result4.rows.map((row) => [row[0], row[1], row[2], row[3], (row[4] )]);
 
         // Taux
 
@@ -104,7 +104,7 @@ const fetchDataC = async (req, res) =>{
             data4 : data4,
             data5 : data5
         };
-        /* console.log('fetch data:',data) */
+        console.log('fetch data:',data)
         res.json(data);
     }catch (error) {
         console.error(error);
@@ -137,8 +137,8 @@ const fetchDataCMois = async (req, res) =>{
         await connection.close()
         // --------------------------------------------------------------------------------------------------
         // Contrats par année
-        const anneeActu12 = (result1.rows[0][0] / 1000000).toFixed(2);
-        const anneePrec11 = (result1.rows[0][1] / 1000000).toFixed(2);
+        const anneeActu12 = (result1.rows[0][0] );
+        const anneePrec11 = (result1.rows[0][1] );
         const data1 = {
             label: "Contrats",
             anneePrec   : anneePrec11,
@@ -148,21 +148,21 @@ const fetchDataCMois = async (req, res) =>{
 
         const data2 = {
             label: result2.rows.map(row => row[0]),
-            anneeActu: result2.rows.map(row => (row[1] / 1000000).toFixed(2)),
-            anneePrec: result2.rows.map(row => (row[2] / 1000000).toFixed(2)),
+            anneeActu: result2.rows.map(row => (row[1] )),
+            anneePrec: result2.rows.map(row => (row[2] )),
         }
 
         // Contrats par Catégorie
 
         const data3 = {
             label: result3.rows.map(row => row[0]),
-            anneeActu: result3.rows.map(row => (row[1] / 1000000).toFixed(2)),
-            anneePrec: result3.rows.map(row => (row[2] / 1000000).toFixed(2)),
+            anneeActu: result3.rows.map(row => (row[1] )),
+            anneePrec: result3.rows.map(row => (row[2] )),
         }
 
         // Tableau
 
-         const data4 = result4.rows.map((row) => [row[0], row[1], row[2], row[3], (row[4] / 1000000).toFixed(2)]);
+         const data4 = result4.rows.map((row) => [row[0], row[1], row[2], row[3], (row[4] )]);
 
          // Taux
          const data5 = Math.round(result5.rows[0] * 100) / 100;
